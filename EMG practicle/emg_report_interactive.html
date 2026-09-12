@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Biomechanics EMG Practical</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1f2933;
+      --muted: #667085;
+      --line: #d7dde5;
+      --panel: #f7f9fc;
+      --raw: #2563eb;
+      --rms: #d97706;
+      --norm: #059669;
+      --bg: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    header {
+      padding: 20px 28px 14px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 0;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    main {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      min-height: calc(100vh - 84px);
+    }
+    aside {
+      border-right: 1px solid var(--line);
+      background: var(--panel);
+      padding: 18px;
+    }
+    section {
+      padding: 18px 22px 24px;
+      min-width: 0;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 7px;
+    }
+    select, input[type="range"] {
+      width: 100%;
+      margin-bottom: 18px;
+    }
+    select {
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: white;
+      color: var(--ink);
+      padding: 0 10px;
+      font-size: 14px;
+    }
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      background: white;
+    }
+    .segmented button {
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: white;
+      height: 36px;
+      cursor: pointer;
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .segmented button:last-child { border-right: 0; }
+    .segmented button.active {
+      background: var(--ink);
+      color: white;
+    }
+    .stat {
+      border-top: 1px solid var(--line);
+      padding: 12px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+    }
+    .stat span:first-child { color: var(--muted); }
+    .plot-wrap {
+      width: 100%;
+      height: min(68vh, 680px);
+      min-height: 430px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .notes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .note {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+      line-height: 1.4;
+      background: white;
+    }
+    .note strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .error {
+      color: #b42318;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    @media (max-width: 820px) {
+      main { grid-template-columns: 1fr; }
+      aside { border-right: 0; border-bottom: 1px solid var(--line); }
+      .notes { grid-template-columns: 1fr; }
+      .plot-wrap { min-height: 360px; height: 56vh; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Biomechanics EMG Practical</h1>
+      <div class="meta">230449N | EMG sensor 4 Ch4 | raw, RMS, and MVC-normalised views</div>
+    </div>
+    <div class="meta" id="status">Loading CSV data...</div>
+  </header>
+  <main>
+    <aside>
+      <label for="trial">Trial</label>
+      <select id="trial"></select>
+
+      <label>View</label>
+      <div class="segmented" role="group" aria-label="Signal view">
+        <button type="button" class="active" data-mode="raw">Raw</button>
+        <button type="button" data-mode="rms">RMS</button>
+        <button type="button" data-mode="normalised">Norm</button>
+      </div>
+
+      <label for="window">RMS window: <span id="windowValue">100</span> ms</label>
+      <input id="window" type="range" min="25" max="500" step="25" value="100">
+
+      <div class="stat"><span>Samples</span><strong id="samples">-</strong></div>
+      <div class="stat"><span>Duration</span><strong id="duration">-</strong></div>
+      <div class="stat"><span>Peak raw</span><strong id="peakRaw">-</strong></div>
+      <div class="stat"><span>Peak RMS</span><strong id="peakRms">-</strong></div>
+      <div class="stat"><span>Peak MVC</span><strong id="peakMvc">-</strong></div>
+      <div class="error" id="error"></div>
+    </aside>
+    <section>
+      <div class="plot-wrap">
+        <canvas id="plot"></canvas>
+      </div>
+      <div class="notes">
+        <div class="note"><strong>Raw EMG</strong>Used to check baseline noise, movement artefact, clipping, and activation timing.</div>
+        <div class="note"><strong>RMS</strong>Used as a smoothed activation envelope that represents local EMG signal power.</div>
+        <div class="note"><strong>MVC normalised</strong>Used to compare effort as a percentage of the maximum voluntary contraction reference.</div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const files = [
+      { name: "Trial 16 raw EMG", file: "emg_raw_trial_16.csv" },
+      { name: "Trial 19 raw EMG", file: "emg_raw_trial_19.csv" },
+      { name: "Trial 27 raw EMG", file: "emg_raw_trial_27.csv" },
+      { name: "Trial 38 raw EMG", file: "emg_raw_trial_38.csv" }
+    ];
+    const mvcFile = "emg_mvc_sliding_rms.csv";
+    const state = { trials: [], mvc: null, mode: "raw", rmsMs: 100 };
+    const els = {
+      trial: document.getElementById("trial"),
+      canvas: document.getElementById("plot"),
+      status: document.getElementById("status"),
+      error: document.getElementById("error"),
+      samples: document.getElementById("samples"),
+      duration: document.getElementById("duration"),
+      peakRaw: document.getElementById("peakRaw"),
+      peakRms: document.getElementById("peakRms"),
+      peakMvc: document.getElementById("peakMvc"),
+      window: document.getElementById("window"),
+      windowValue: document.getElementById("windowValue")
+    };
+
+    function parseCsv(text) {
+      const lines = text.trim().split(/\r?\n/);
+      const dataStart = lines.findIndex(line => line.startsWith("X [s],"));
+      if (dataStart < 0) throw new Error("CSV data header not found.");
+      const rows = [];
+      for (const line of lines.slice(dataStart + 1)) {
+        const parts = line.split(",");
+        const x = Number(parts[0]);
+        const y = Number(parts[1]);
+        if (Number.isFinite(x) && Number.isFinite(y)) rows.push([x, y]);
+      }
+      return rows;
+    }
+
+    async function loadFile(file) {
+      const response = await fetch(file);
+      if (!response.ok) throw new Error(`${file} could not be loaded.`);
+      return parseCsv(await response.text());
+    }
+
+    function rms(rows, ms) {
+      const dt = rows.length > 1 ? rows[1][0] - rows[0][0] : 0.00025;
+      const width = Math.max(1, Math.round((ms / 1000) / dt));
+      const out = [];
+      let sum = 0;
+      for (let i = 0; i < rows.length; i++) {
+        sum += rows[i][1] * rows[i][1];
+        if (i >= width) sum -= rows[i - width][1] * rows[i - width][1];
+        out.push([rows[i][0], Math.sqrt(sum / Math.min(i + 1, width))]);
+      }
+      return out;
+    }
+
+    function downsample(rows, maxPoints) {
+      if (rows.length <= maxPoints) return rows;
+      const step = Math.ceil(rows.length / maxPoints);
+      const sampled = [];
+      for (let i = 0; i < rows.length; i += step) sampled.push(rows[i]);
+      return sampled;
+    }
+
+    function format(value, unit) {
+      if (!Number.isFinite(value)) return "-";
+      return `${value.toPrecision(4)}${unit}`;
+    }
+
+    function currentSeries() {
+      const trial = state.trials[els.trial.selectedIndex];
+      const raw = trial.rows;
+      const envelope = rms(raw, state.rmsMs);
+      const mvcPeak = Math.max(...state.mvc.map(row => Math.abs(row[1])));
+      if (state.mode === "raw") return { rows: raw, color: "--raw", label: "Raw EMG [V]" };
+      if (state.mode === "rms") return { rows: envelope, color: "--rms", label: "RMS [V]" };
+      return {
+        rows: envelope.map(row => [row[0], mvcPeak ? (row[1] / mvcPeak) * 100 : 0]),
+        color: "--norm",
+        label: "MVC normalised [%]"
+      };
+    }
+
+    function draw() {
+      const ctx = els.canvas.getContext("2d");
+      const rect = els.canvas.getBoundingClientRect();
+      const scale = window.devicePixelRatio || 1;
+      els.canvas.width = Math.round(rect.width * scale);
+      els.canvas.height = Math.round(rect.height * scale);
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      ctx.clearRect(0, 0, rect.width, rect.height);
+
+      const { rows, color, label } = currentSeries();
+      const sampled = downsample(rows, 2500);
+      const xs = sampled.map(row => row[0]);
+      const ys = sampled.map(row => row[1]);
+      const xmin = Math.min(...xs), xmax = Math.max(...xs);
+      let ymin = Math.min(...ys), ymax = Math.max(...ys);
+      if (ymin === ymax) { ymin -= 1; ymax += 1; }
+      const pad = { left: 66, right: 22, top: 30, bottom: 50 };
+      const w = rect.width - pad.left - pad.right;
+      const h = rect.height - pad.top - pad.bottom;
+      const cssColor = getComputedStyle(document.documentElement).getPropertyValue(color).trim();
+      const xMap = x => pad.left + ((x - xmin) / (xmax - xmin || 1)) * w;
+      const yMap = y => pad.top + h - ((y - ymin) / (ymax - ymin || 1)) * h;
+
+      ctx.strokeStyle = "#d7dde5";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.rect(pad.left, pad.top, w, h);
+      ctx.stroke();
+      ctx.fillStyle = "#667085";
+      ctx.font = "12px Arial";
+      ctx.fillText(label, pad.left, 19);
+      ctx.fillText("Time [s]", pad.left + w / 2 - 22, rect.height - 14);
+      ctx.fillText(format(ymax, ""), 8, pad.top + 4);
+      ctx.fillText(format(ymin, ""), 8, pad.top + h);
+      ctx.fillText(format(xmin, " s"), pad.left, rect.height - 31);
+      ctx.fillText(format(xmax, " s"), pad.left + w - 52, rect.height - 31);
+
+      ctx.strokeStyle = cssColor;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      sampled.forEach((row, index) => {
+        const x = xMap(row[0]);
+        const y = yMap(row[1]);
+        if (index === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      const trial = state.trials[els.trial.selectedIndex];
+      const envelope = rms(trial.rows, state.rmsMs);
+      const rawPeak = Math.max(...trial.rows.map(row => Math.abs(row[1])));
+      const rmsPeak = Math.max(...envelope.map(row => row[1]));
+      const mvcPeak = Math.max(...state.mvc.map(row => Math.abs(row[1])));
+      els.samples.textContent = trial.rows.length.toLocaleString();
+      els.duration.textContent = format(trial.rows.at(-1)[0] - trial.rows[0][0], " s");
+      els.peakRaw.textContent = format(rawPeak, " V");
+      els.peakRms.textContent = format(rmsPeak, " V");
+      els.peakMvc.textContent = format(mvcPeak, " V");
+    }
+
+    async function init() {
+      try {
+        state.trials = await Promise.all(files.map(async item => ({
+          ...item,
+          rows: await loadFile(item.file)
+        })));
+        state.mvc = await loadFile(mvcFile);
+        els.trial.innerHTML = state.trials.map(item => `<option>${item.name}</option>`).join("");
+        els.status.textContent = "CSV data loaded";
+        draw();
+      } catch (error) {
+        els.status.textContent = "CSV loading failed";
+        els.error.textContent = error.message + " Use a local web server if the browser blocks file access.";
+      }
+    }
+
+    els.trial.addEventListener("change", draw);
+    els.window.addEventListener("input", event => {
+      state.rmsMs = Number(event.target.value);
+      els.windowValue.textContent = state.rmsMs;
+      draw();
+    });
+    document.querySelectorAll("[data-mode]").forEach(button => {
+      button.addEventListener("click", () => {
+        state.mode = button.dataset.mode;
+        document.querySelectorAll("[data-mode]").forEach(item => item.classList.toggle("active", item === button));
+        draw();
+      });
+    });
+    window.addEventListener("resize", () => state.trials.length && draw());
+    init();
+  </script>
+</body>
+</html>
