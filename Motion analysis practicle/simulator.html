@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>C3D Motion Analysis</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #08111f;
+    color: #e6edf7;
+    font-family: Inter, Arial, sans-serif;
+    overflow: hidden;
+}
+
+header {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    background: #0d1828;
+    border-bottom: 1px solid #23344d;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 20px;
+}
+
+header span {
+    color: #6ea8ff;
+    margin-left: 12px;
+    font-size: 13px;
+}
+
+#app {
+    height: calc(100vh - 64px);
+    display: grid;
+    grid-template-columns: 300px 1fr 390px;
+}
+
+.sidebar {
+    background: #0b1626;
+    border-right: 1px solid #23344d;
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.rightbar {
+    background: #0b1626;
+    border-left: 1px solid #23344d;
+    padding: 14px;
+    overflow-y: auto;
+}
+
+.viewer {
+    position: relative;
+    min-width: 0;
+}
+
+#threeCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section h3 {
+    margin: 0 0 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #7f96b5;
+}
+
+button,
+select,
+input[type="file"] {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+button {
+    background: #172942;
+    color: #dce9fa;
+    border: 1px solid #2e4768;
+    padding: 9px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #203a5c;
+}
+
+input[type="range"] {
+    width: 100%;
+}
+
+.fileBox {
+    border: 1px dashed #355276;
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+    color: #90a8c5;
+    font-size: 13px;
+}
+
+.marker-list {
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #263b57;
+    border-radius: 6px;
+}
+
+.marker-item {
+    padding: 7px 9px;
+    cursor: pointer;
+    border-bottom: 1px solid #182a40;
+    font-size: 13px;
+}
+
+.marker-item:hover,
+.marker-item.active {
+    background: #17365c;
+    color: white;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #17283d;
+    font-size: 13px;
+}
+
+.stat span:first-child {
+    color: #8096b2;
+}
+
+.value {
+    color: #65d9ff;
+    font-family: monospace;
+}
+
+#timeline {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(7, 15, 27, 0.88);
+    border: 1px solid #2a405e;
+}
+
+.timeline-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.timeline-row button {
+    width: auto;
+    margin: 0;
+    min-width: 75px;
+}
+
+#frameSlider {
+    flex: 1;
+}
+
+.chart-container {
+    height: 190px;
+    margin-bottom: 18px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 7px;
+    border-radius: 10px;
+    background: #17365c;
+    color: #70c8ff;
+    font-size: 10px;
+}
+
+canvas.chart {
+    background: #0a1423;
+    border-radius: 6px;
+}
+
+.help {
+    font-size: 11px;
+    line-height: 1.5;
+    color: #758ba7;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>3D Motion Capture Analyzer</h1>
+    <span id="fileName">No C3D loaded</span>
+</header>
+
+<div id="app">
+
+    <!-- LEFT PANEL -->
+    <aside class="sidebar">
+
+        <div class="section">
+            <h3>Load C3D</h3>
+
+            <div class="fileBox">
+                <input id="fileInput" type="file" accept=".c3d">
+                <div>Choose a C3D motion-capture file</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Visualization</h3>
+
+            <button id="toggleMarkers">
+                Hide Markers
+            </button>
+
+            <button id="toggleStick">
+                Hide Stick Figure
+            </button>
+
+            <button id="toggleTrail">
+                Show Trajectory
+            </button>
+
+            <button id="resetCamera">
+                Reset Camera
+            </button>
+        </div>
+
+        <div class="section">
+            <h3>Marker</h3>
+
+            <select id="markerSelect">
+                <option value="">Select marker...</option>
+            </select>
+
+            <div id="markerList" class="marker-list"></div>
+        </div>
+
+        <div class="section">
+            <h3>Angle Definition</h3>
+
+            <label style="font-size:12px;color:#8399b5">
+                Proximal marker
+            </label>
+
+            <select id="proximalSelect"></select>
+
+            <label style="font-size:12px;color:#8399b5">
+                Joint marker
+            </label>
+
+            <select id="jointSelect"></select>
+
+            <label style="font-size:12px;color:#8399b5">
+                Distal marker
+            </label>
+
+            <select id="distalSelect"></select>
+
+            <button id="calculateAngle">
+                Calculate Angle
+            </button>
+        </div>
+
+        <div class="section">
+            <h3>Analysis</h3>
+
+            <div class="stat">
+                <span>Frames</span>
+                <span id="framesStat" class="value">-</span>
+            </div>
+
+            <div class="stat">
+                <span>Frame rate</span>
+                <span id="rateStat" class="value">-</span>
+            </div>
+
+            <div class="stat">
+                <span>Duration</span>
+                <span id="durationStat" class="value">-</span>
+            </div>
+
+            <div class="stat">
+                <span>Markers</span>
+                <span id="markerStat" class="value">-</span>
+            </div>
+        </div>
+
+        <div class="help">
+            C3D coordinates are displayed as a 3D marker cloud.
+            The stick figure is created from common biomechanical
+            marker naming conventions. You can edit the connection
+            map in the JavaScript section.
+        </div>
+
+    </aside>
+
+    <!-- CENTER -->
+    <main class="viewer">
+
+        <canvas id="threeCanvas"></canvas>
+
+        <div id="timeline">
+
+            <div class="timeline-row">
+
+                <button id="playButton">▶ Play</button>
+
+                <button id="stopButton">■ Stop</button>
+
+                <input
+                    id="frameSlider"
+                    type="range"
+                    min="0"
+                    max="0"
+                    value="0"
+                >
+
+                <span id="frameLabel">
+                    Frame 0
+                </span>
+
+            </div>
+
+            <div style="margin-top:8px">
+
+                <label style="font-size:11px;color:#8198b4">
+                    Playback speed
+                </label>
+
+                <input
+                    id="speedSlider"
+                    type="range"
+                    min="0.1"
+                    max="3"
+                    step="0.1"
+                    value="1"
+                >
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- RIGHT -->
+    <aside class="rightbar">
+
+        <div class="section">
+
+            <h3>Live Motion Data</h3>
+
+            <div class="stat">
+                <span>Time</span>
+                <span id="timeValue" class="value">0.000 s</span>
+            </div>
+
+            <div class="stat">
+                <span>Frame</span>
+                <span id="currentFrame" class="value">0</span>
+            </div>
+
+            <div class="stat">
+                <span>Marker</span>
+                <span id="currentMarker" class="value">-</span>
+            </div>
+
+            <div class="stat">
+                <span>X</span>
+                <span id="xValue" class="value">-</span>
+            </div>
+
+            <div class="stat">
+                <span>Y</span>
+                <span id="yValue" class="value">-</span>
+            </div>
+
+            <div class="stat">
+                <span>Z</span>
+                <span id="zValue" class="value">-</span>
+            </div>
+
+            <div class="stat">
+                <span>Velocity</span>
+                <span id="velocityValue" class="value">-</span>
+            </div>
+
+            <div class="stat">
+                <span>Joint angle</span>
+                <span id="angleValue" class="value">-</span>
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h3>Marker Velocity</h3>
+
+            <div class="chart-container">
+                <canvas id="velocityChart" class="chart"></canvas>
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h3>Joint Angle</h3>
+
+            <div class="chart-container">
+                <canvas id="angleChart" class="chart"></canvas>
+            </div>
+
+        </div>
+
+    </aside>
+
+</div>
+
+
+<script>
+
+/* ============================================================
+   GLOBAL STATE
+============================================================ */
+
+let c3d = null;
+
+let currentFrame = 0;
+
+let playing = false;
+
+let playbackSpeed = 1;
+
+let showMarkers = true;
+let showStick = true;
+let showTrail = false;
+
+let selectedMarker = null;
+
+let angleData = [];
+
+let velocityData = [];
+
+let velocityChart = null;
+let angleChart = null;
+
+
+/* ============================================================
+   THREE.JS
+============================================================ */
+
+const canvas = document.getElementById("threeCanvas");
+
+const scene = new THREE.Scene();
+
+scene.background = new THREE.Color(0x08111f);
+
+const camera = new THREE.PerspectiveCamera(
+    50,
+    canvas.clientWidth / canvas.clientHeight,
+    0.01,
+    10000
+);
+
+camera.position.set(2, 2, 3);
+
+const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true
+});
+
+renderer.setPixelRatio(window.devicePixelRatio);
+
+renderer.setSize(
+    canvas.clientWidth,
+    canvas.clientHeight,
+    false
+);
+
+const controls = new THREE.OrbitControls(
+    camera,
+    renderer.domElement
+);
+
+controls.enableDamping = true;
+
+scene.add(
+    new THREE.AmbientLight(0xffffff, 0.8)
+);
+
+const directionalLight =
+    new THREE.DirectionalLight(0xffffff, 0.8);
+
+directionalLight.position.set(3, 5, 4);
+
+scene.add(directionalLight);
+
+
+/* Coordinate axes */
+
+const axes = new THREE.AxesHelper(1);
+
+scene.add(axes);
+
+
+/* Grid */
+
+const grid = new THREE.GridHelper(
+    4,
+    20,
+    0x315174,
+    0x182b42
+);
+
+scene.add(grid);
+
+
+/* Main marker group */
+
+const markerGroup = new THREE.Group();
+
+scene.add(markerGroup);
+
+
+/* Skeleton group */
+
+const skeletonGroup = new THREE.Group();
+
+scene.add(skeletonGroup);
+
+
+/* Selected trajectory */
+
+let trailLine = null;
+
+
+/* ============================================================
+   C3D PARSER
+============================================================ */
+
+/*
+    This parser handles the common Intel/little-endian C3D
+    format used by most modern motion-capture systems.
+
+    C3D layout:
+
+    Header
+    Parameter section
+    Data section
+
+    Important parameters:
+
+      POINT:USED
+      POINT:FRAMES
+      POINT:RATE
+      POINT:SCALE
+      POINT:DATA_START
+      POINT:LABELS
+
+*/
+
+class C3DParser {
+
+    constructor(buffer) {
+
+        this.buffer = buffer;
+
+        this.view = new DataView(buffer);
+
+        this.littleEndian = true;
+
+        this.parameters = {};
+
+        this.points = [];
+
+        this.frames = 0;
+
+        this.frameRate = 100;
+
+        this.scale = 1;
+
+        this.dataStart = 0;
+
+        this.pointCount = 0;
+
+    }
+
+
+    parse() {
+
+        const view = this.view;
+
+        const parameterBlock =
+            view.getUint8(0);
+
+        const processor =
+            view.getUint8(1);
+
+        /*
+            0x50 = Intel
+            0x54 = DEC
+            0x55 = MIPS
+        */
+
+        this.littleEndian =
+            processor === 0x50 ||
+            processor === 0x54 ||
+            processor === 0x55;
+
+        /*
+            Read header values.
+        */
+
+        this.pointCount =
+            view.getUint16(
+                2,
+                this.littleEndian
+            );
+
+        this.frames =
+            view.getUint16(
+                6,
+                this.littleEndian
+            );
+
+        this.scale =
+            view.getFloat32(
+                12,
+                this.littleEndian
+            );
+
+        this.dataStart =
+            view.getUint16(
+                16,
+                this.littleEndian
+            );
+
+        this.frameRate =
+            view.getFloat32(
+                20,
+                this.littleEndian
+            );
+
+        /*
+            Some files use the extended frame
+            fields. The basic fields are sufficient
+            for many normal trials.
+        */
+
+        this.parseParameters(
+            parameterBlock
+        );
+
+        this.readPoints();
+
+        return this;
+
+    }
+
+
+    parseParameters(parameterBlock) {
+
+        /*
+            Parameter section begins at the block
+            immediately following the header.
+        */
+
+        const offset =
+            (parameterBlock - 1) * 512;
+
+        if (
+            offset < 0 ||
+            offset >= this.buffer.byteLength
+        ) {
+            return;
+        }
+
+        const view = this.view;
+
+        /*
+            Parameter records are organized as:
+
+            [name length][group id][name][data...]
+        */
+
+        let p = offset + 4;
+
+        /*
+            This parser extracts the most important
+            POINT parameters.
+
+            We scan the parameter region instead of
+            depending on a particular manufacturer.
+        */
+
+        const end =
+            Math.min(
+                this.buffer.byteLength,
+                offset + 16384
+            );
+
+        while (p + 2 < end) {
+
+            const nameLength =
+                view.getInt8(p);
+
+            const groupId =
+                view.getInt8(p + 1);
+
+            p += 2;
+
+            if (
+                nameLength <= 0 ||
+                nameLength > 31
+            ) {
+                p += 1;
+                continue;
+            }
+
+            if (p + nameLength > end) {
+                break;
+            }
+
+            let name = "";
+
+            for (
+                let i = 0;
+                i < nameLength;
+                i++
+            ) {
+                name += String.fromCharCode(
+                    view.getUint8(p + i)
+                );
+            }
+
+            p += nameLength;
+
+            if (p + 2 > end) {
+                break;
+            }
+
+            /*
+                Offset to next parameter record.
+            */
+
+            const recordOffset =
+                view.getInt16(
+                    p,
+                    this.littleEndian
+                );
+
+            p += 2;
+
+            /*
+                Group record.
+            */
+
+            if (groupId < 0) {
+
+                if (recordOffset === 0) {
+                    break;
+                }
+
+                p +=
+                    Math.max(
+                        0,
+                        Math.abs(recordOffset) - 2
+                    );
+
+                continue;
+            }
+
+            /*
+                Parameter record:
+
+                bytes:
+                data type
+                dimensions
+                dimension sizes
+                data
+            */
+
+            if (p + 2 > end) {
+                break;
+            }
+
+            const dataType =
+                view.getInt8(p);
+
+            const dimensions =
+                view.getUint8(p + 1);
+
+            p += 2;
+
+            let sizes = [];
+
+            for (
+                let d = 0;
+                d < dimensions;
+                d++
+            ) {
+
+                if (p >= end) break;
+
+                sizes.push(
+                    view.getUint8(p++)
+                );
+
+            }
+
+            let count = 1;
+
+            for (const s of sizes) {
+                count *= s;
+            }
+
+            const bytesPerElement =
+                Math.abs(dataType);
+
+            const byteCount =
+                count * bytesPerElement;
+
+            if (
+                p + byteCount > end
+            ) {
+                break;
+            }
+
+            let values = [];
+
+            for (
+                let i = 0;
+                i < count;
+                i++
+            ) {
+
+                const position =
+                    p + i * bytesPerElement;
+
+                if (dataType === -1) {
+
+                    values.push(
+                        view.getInt8(position)
+                    );
+
+                } else if (dataType === -2) {
+
+                    values.push(
+                        view.getInt16(
+                            position,
+                            this.littleEndian
+                        )
+                    );
+
+                } else if (dataType === -4) {
+
+                    values.push(
+                        view.getFloat32(
+                            position,
+                            this.littleEndian
+                        )
+                    );
+
+                } else {
+
+                    values.push(
+                        view.getUint8(position)
+                    );
+
+                }
+
+            }
+
+            this.parameters[name.toUpperCase()] =
+                values;
+
+            p += byteCount;
+
+            /*
+                Skip any extra record bytes.
+            */
+
+            if (recordOffset === 0) {
+                break;
+            }
+
+        }
+
+        /*
+            Read known values if present.
+        */
+
+        const rate =
+            this.parameters["RATE"];
+
+        if (rate && rate.length) {
+
+            const numericRate =
+                Number(rate[0]);
+
+            if (
+                Number.isFinite(numericRate) &&
+                numericRate > 0
+            ) {
+                this.frameRate =
+                    numericRate;
+            }
+
+        }
+
+        const labels =
+            this.parameters["LABELS"];
+
+        if (labels) {
+
+            this.labels =
+                labels.map(
+                    x => String.fromCharCode(x)
+                );
+
+        }
+
+    }
+
+
+    readPoints() {
+
+        const view = this.view;
+
+        /*
+            Standard C3D point record:
+
+            X
+            Y
+            Z
+            residual/camera information
+
+            Coordinates are generally 32-bit float when
+            POINT:SCALE is negative.
+        */
+
+        let scale = this.scale;
+
+        /*
+            If scale is negative, data are floating point.
+        */
+
+        const floatingPoint =
+            scale < 0;
+
+        const absoluteScale =
+            Math.abs(scale);
+
+        const dataOffset =
+            (this.dataStart - 1) * 512;
+
+        /*
+            Determine point count from parameters
+            when available.
+        */
+
+        const used =
+            this.parameters["USED"];
+
+        if (
+            used &&
+            used.length &&
+            Number(used[0]) > 0
+        ) {
+
+            this.pointCount =
+                Number(used[0]);
+
+        }
+
+        const frames =
+            this.frames;
+
+        /*
+            POINT:FRAMES can override header value.
+        */
+
+        const frameParameter =
+            this.parameters["FRAMES"];
+
+        if (
+            frameParameter &&
+            frameParameter.length &&
+            Number(frameParameter[0]) > 0
+        ) {
+
+            this.frames =
+                Number(frameParameter[0]);
+
+        }
+
+        /*
+            Common analog count is stored in the
+            header. We need the analog-per-frame count
+            to calculate record size.
+        */
+
+        const analog =
+            this.view.getUint16(
+                4,
+                this.littleEndian
+            );
+
+        const analogSamples =
+            this.view.getUint16(
+                18,
+                this.littleEndian
+            );
+
+        /*
+            Number of analog values in each frame.
+        */
+
+        const analogPerFrame =
+            analog * analogSamples;
+
+        const recordSize =
+            this.pointCount * 4 +
+            analogPerFrame * 2;
+
+        /*
+            Some floating point files use 4-byte
+            analog values. For marker visualization,
+            only the point portion matters.
+        */
+
+        this.points = [];
+
+        for (
+            let frame = 0;
+            frame < this.frames;
+            frame++
+        ) {
+
+            const framePoints = [];
+
+            const frameOffset =
+                dataOffset +
+                frame * recordSize;
+
+            for (
+                let marker = 0;
+                marker < this.pointCount;
+                marker++
+            ) {
+
+                const offset =
+                    frameOffset +
+                    marker * 16;
+
+                if (
+                    offset + 16 >
+                    this.buffer.byteLength
+                ) {
+                    framePoints.push({
+                        x: 0,
+                        y: 0,
+                        z: 0,
+                        valid: false
+                    });
+
+                    continue;
+                }
+
+                let x, y, z, residual;
+
+                if (floatingPoint) {
+
+                    x =
+                        view.getFloat32(
+                            offset,
+                            this.littleEndian
+                        ) * absoluteScale;
+
+                    y =
+                        view.getFloat32(
+                            offset + 4,
+                            this.littleEndian
+                        ) * absoluteScale;
+
+                    z =
+                        view.getFloat32(
+                            offset + 8,
+                            this.littleEndian
+                        ) * absoluteScale;
+
+                    residual =
+                        view.getFloat32(
+                            offset + 12,
+                            this.littleEndian
+                        );
+
+                } else {
+
+                    x =
+                        view.getInt16(
+                            offset,
+                            this.littleEndian
+                        ) * absoluteScale;
+
+                    y =
+                        view.getInt16(
+                            offset + 2,
+                            this.littleEndian
+                        ) * absoluteScale;
+
+                    z =
+                        view.getInt16(
+                            offset + 4,
+                            this.littleEndian
+                        ) * absoluteScale;
+
+                    residual =
+                        view.getUint16(
+                            offset + 6,
+                            this.littleEndian
+                        );
+
+                }
+
+                /*
+                    C3D marker units are commonly mm.
+                    Convert to meters when values look
+                    like millimetres.
+
+                    You can disable this if your laboratory
+                    stores another unit.
+                */
+
+                if (
+                    Math.max(
+                        Math.abs(x),
+                        Math.abs(y),
+                        Math.abs(z)
+                    ) > 10
+                ) {
+
+                    x /= 1000;
+                    y /= 1000;
+                    z /= 1000;
+
+                }
+
+                const valid =
+                    Number.isFinite(x) &&
+                    Number.isFinite(y) &&
+                    Number.isFinite(z);
+
+                framePoints.push({
+                    x,
+                    y,
+                    z,
+                    valid
+                });
+
+            }
+
+            this.points.push(framePoints);
+
+        }
+
+        /*
+            Generate labels when the parameter parser
+            could not retrieve them.
+        */
+
+        if (
+            !this.labels ||
+            this.labels.length < this.pointCount
+        ) {
+
+            this.labels = [];
+
+            for (
+                let i = 0;
+                i < this.pointCount;
+                i++
+            ) {
+
+                this.labels.push(
+                    "Marker_" + (i + 1)
+                );
+
+            }
+
+        }
+
+        /*
+            Clean label names.
+        */
+
+        this.labels =
+            this.labels.map(
+                label =>
+                    String(label)
+                        .replace(/\0/g, "")
+                        .trim()
+            );
+
+    }
+
+}
+
+
+/* ============================================================
+   LOAD FILE
+============================================================ */
+
+document
+.getElementById("fileInput")
+.addEventListener(
+    "change",
+    async event => {
+
+        const file =
+            event.target.files[0];
+
+        if (!file) return;
+
+        document
+        .getElementById("fileName")
+        .textContent =
+            file.name;
+
+        const buffer =
+            await file.arrayBuffer();
+
+        try {
+
+            const parser =
+                new C3DParser(buffer);
+
+            c3d =
+                parser.parse();
+
+            initializeAnalysis();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Unable to parse this C3D file.\n\n" +
+                error.message
+            );
+
+        }
+
+    }
+);
+
+
+/* ============================================================
+   INITIALIZE
+============================================================ */
+
+function initializeAnalysis() {
+
+    currentFrame = 0;
+
+    selectedMarker = 0;
+
+    document
+    .getElementById("framesStat")
+    .textContent =
+        c3d.frames;
+
+    document
+    .getElementById("rateStat")
+    .textContent =
+        c3d.frameRate.toFixed(2) + " Hz";
+
+    document
+    .getElementById("durationStat")
+    .textContent =
+        (
+            c3d.frames /
+            c3d.frameRate
+        ).toFixed(2) + " s";
+
+    document
+    .getElementById("markerStat")
+    .textContent =
+        c3d.pointCount;
+
+    const slider =
+        document.getElementById(
+            "frameSlider"
+        );
+
+    slider.max =
+        Math.max(
+            0,
+            c3d.frames - 1
+        );
+
+    slider.value = 0;
+
+    buildMarkerControls();
+
+    calculateVelocities();
+
+    buildScene();
+
+    calculateAngle();
+
+    updateCharts();
+
+    updateFrame();
+
+}
+
+
+/* ============================================================
+   MARKER CONTROLS
+============================================================ */
+
+function buildMarkerControls() {
+
+    const markerSelect =
+        document.getElementById(
+            "markerSelect"
+        );
+
+    const markerList =
+        document.getElementById(
+            "markerList"
+        );
+
+    const selects = [
+        document.getElementById(
+            "proximalSelect"
+        ),
+        document.getElementById(
+            "jointSelect"
+        ),
+        document.getElementById(
+            "distalSelect"
+        )
+    ];
+
+    markerSelect.innerHTML =
+        `<option value="">Select marker...</option>`;
+
+    markerList.innerHTML = "";
+
+    selects.forEach(
+        select => {
+            select.innerHTML =
+                "";
+        }
+    );
+
+    c3d.labels.forEach(
+        (label, index) => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                index;
+
+            option.textContent =
+                label || "Marker " + index;
+
+            markerSelect.appendChild(
+                option
+            );
+
+
+            for (
+                const select of selects
+            ) {
+
+                const clone =
+                    option.cloneNode(true);
+
+                select.appendChild(
+                    clone
+                );
+
+            }
+
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "marker-item";
+
+            item.textContent =
+                label || "Marker " + index;
+
+            item.onclick =
+                () => selectMarker(index);
+
+            markerList.appendChild(item);
+
+        }
+    );
+
+    markerSelect.value =
+        selectedMarker;
+
+    selectMarker(selectedMarker);
+
+}
+
+
+function selectMarker(index) {
+
+    selectedMarker =
+        Number(index);
+
+    const select =
+        document.getElementById(
+            "markerSelect"
+        );
+
+    select.value =
+        selectedMarker;
+
+    document
+    .querySelectorAll(".marker-item")
+    .forEach(
+        (item, i) => {
+
+            item.classList.toggle(
+                "active",
+                i === selectedMarker
+            );
+
+        }
+    );
+
+    updateCharts();
+
+    updateFrame();
+
+}
+
+
+document
+.getElementById("markerSelect")
+.addEventListener(
+    "change",
+    e => {
+
+        selectMarker(
+            e.target.value
+        );
+
+    }
+);
+
+
+/* ============================================================
+   VELOCITY
+============================================================ */
+
+function calculateVelocities() {
+
+    velocityData = [];
+
+    const dt =
+        1 / c3d.frameRate;
+
+    for (
+        let frame = 0;
+        frame < c3d.frames;
+        frame++
+    ) {
+
+        if (
+            frame === 0 ||
+            frame === c3d.frames - 1
+        ) {
+
+            velocityData.push(
+                0
+            );
+
+            continue;
+
+        }
+
+        const p0 =
+            c3d.points[
+                frame - 1
+            ][selectedMarker];
+
+        const p1 =
+            c3d.points[
+                frame + 1
+            ][selectedMarker];
+
+        if (
+            !p0 ||
+            !p1 ||
+            !p0.valid ||
+            !p1.valid
+        ) {
+
+            velocityData.push(0);
+
+            continue;
+
+        }
+
+        const vx =
+            (p1.x - p0.x) /
+            (2 * dt);
+
+        const vy =
+            (p1.y - p0.y) /
+            (2 * dt);
+
+        const vz =
+            (p1.z - p0.z) /
+            (2 * dt);
+
+        const velocity =
+            Math.sqrt(
+                vx * vx +
+                vy * vy +
+                vz * vz
+            );
+
+        velocityData.push(
+            velocity
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   JOINT ANGLE
+============================================================ */
+
+function calculateAngle() {
+
+    angleData = [];
+
+    const proximal =
+        Number(
+            document.getElementById(
+                "proximalSelect"
+            ).value
+        );
+
+    const joint =
+        Number(
+            document.getElementById(
+                "jointSelect"
+            ).value
+        );
+
+    const distal =
+        Number(
+            document.getElementById(
+                "distalSelect"
+            ).value
+        );
+
+    if (
+        Number.isNaN(proximal) ||
+        Number.isNaN(joint) ||
+        Number.isNaN(distal)
+    ) {
+
+        angleData =
+            new Array(
+                c3d.frames
+            ).fill(null);
+
+        return;
+
+    }
+
+    for (
+        let frame = 0;
+        frame < c3d.frames;
+        frame++
+    ) {
+
+        const A =
+            c3d.points[
+                frame
+            ][proximal];
+
+        const B =
+            c3d.points[
+                frame
+            ][joint];
+
+        const C =
+            c3d.points[
+                frame
+            ][distal];
+
+        if (
+            !A ||
+            !B ||
+            !C ||
+            !A.valid ||
+            !B.valid ||
+            !C.valid
+        ) {
+
+            angleData.push(null);
+
+            continue;
+
+        }
+
+        /*
+            Vector BA
+        */
+
+        const ax =
+            A.x - B.x;
+
+        const ay =
+            A.y - B.y;
+
+        const az =
+            A.z - B.z;
+
+        /*
+            Vector BC
+        */
+
+        const cx =
+            C.x - B.x;
+
+        const cy =
+            C.y - B.y;
+
+        const cz =
+            C.z - B.z;
+
+        const dot =
+            ax * cx +
+            ay * cy +
+            az * cz;
+
+        const magA =
+            Math.sqrt(
+                ax * ax +
+                ay * ay +
+                az * az
+            );
+
+        const magC =
+            Math.sqrt(
+                cx * cx +
+                cy * cy +
+                cz * cz
+            );
+
+        if (
+            magA === 0 ||
+            magC === 0
+        ) {
+
+            angleData.push(null);
+
+            continue;
+
+        }
+
+        let cosine =
+            dot /
+            (magA * magC);
+
+        cosine =
+            Math.max(
+                -1,
+                Math.min(
+                    1,
+                    cosine
+                )
+            );
+
+        const angle =
+            Math.acos(cosine) *
+            180 /
+            Math.PI;
+
+        angleData.push(angle);
+
+    }
+
+    updateCharts();
+
+}
+
+
+/* ============================================================
+   STICK FIGURE CONNECTIONS
+============================================================ */
+
+/*
+    The parser cannot know the anatomical topology of
+    arbitrary C3D files.
+
+    Therefore the application attempts to connect markers
+    using common names.
+
+    Add/edit connections here for your laboratory marker set.
+*/
+
+const possibleConnections = [
+
+    ["LASI", "LPSI"],
+    ["LASI", "RASI"],
+    ["RASI", "RPSI"],
+    ["LPSI", "RPSI"],
+
+    ["LASI", "LKNE"],
+    ["RASI", "RKNE"],
+
+    ["LKNE", "LANK"],
+    ["RKNE", "RANK"],
+
+    ["LANK", "LHEE"],
+    ["LANK", "LTOE"],
+
+    ["RANK", "RHEE"],
+    ["RANK", "RTOE"],
+
+    ["LHEE", "LTOE"],
+    ["RHEE", "RTOE"],
+
+    ["C7", "CLAV"],
+    ["CLAV", "STRN"],
+
+    ["STRN", "LASI"],
+    ["STRN", "RASI"],
+
+    ["C7", "LSHO"],
+    ["C7", "RSHO"],
+
+    ["LSHO", "LELB"],
+    ["LELB", "LWRA"],
+
+    ["RSHO", "RELB"],
+    ["RELB", "RWRA"],
+
+    ["LWRA", "LFIN"],
+    ["RWRA", "RFIN"]
+
+];
+
+
+/* ============================================================
+   BUILD THREE.JS SCENE
+============================================================ */
+
+function buildScene() {
+
+    while (
+        markerGroup.children.length
+    ) {
+
+        markerGroup.remove(
+            markerGroup.children[0]
+        );
+
+    }
+
+    while (
+        skeletonGroup.children.length
+    ) {
+
+        skeletonGroup.remove(
+            skeletonGroup.children[0]
+        );
+
+    }
+
+    const colors = [
+        0x00d9ff,
+        0xff4d8d,
+        0x8bff6a,
+        0xffc857,
+        0xa879ff
+    ];
+
+    /*
+        Marker spheres
+    */
+
+    c3d.labels.forEach(
+        (label, index) => {
+
+            const geometry =
+                new THREE.SphereGeometry(
+                    0.015,
+                    12,
+                    12
+                );
+
+            const material =
+                new THREE.MeshBasicMaterial({
+                    color:
+                        colors[
+                            index %
+                            colors.length
+                        ]
+                });
+
+            const marker =
+                new THREE.Mesh(
+                    geometry,
+                    material
+                );
+
+            marker.userData.index =
+                index;
+
+            markerGroup.add(
+                marker
+            );
+
+        }
+    );
+
+    createSkeleton();
+
+    updateFrame();
+
+}
+
+
+/* ============================================================
+   SKELETON
+============================================================ */
+
+function findMarkerIndex(name) {
+
+    const upper =
+        name.toUpperCase();
+
+    return c3d.labels.findIndex(
+        label =>
+            String(label)
+                .toUpperCase()
+                .trim() === upper
+    );
+
+}
+
+
+function createSkeleton() {
+
+    possibleConnections.forEach(
+        connection => {
+
+            const a =
+                findMarkerIndex(
+                    connection[0]
+                );
+
+            const b =
+                findMarkerIndex(
+                    connection[1]
+                );
+
+            if (
+                a < 0 ||
+                b < 0
+            ) return;
+
+            const geometry =
+                new THREE.BufferGeometry();
+
+            const material =
+                new THREE.LineBasicMaterial({
+                    color: 0x55aaff,
+                    linewidth: 2
+                });
+
+            const line =
+                new THREE.Line(
+                    geometry,
+                    material
+                );
+
+            line.userData.a = a;
+            line.userData.b = b;
+
+            skeletonGroup.add(
+                line
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   FRAME UPDATE
+============================================================ */
+
+function updateFrame() {
+
+    if (!c3d) return;
+
+    const frame =
+        Math.min(
+            currentFrame,
+            c3d.frames - 1
+        );
+
+    const framePoints =
+        c3d.points[frame];
+
+    /*
+        Marker positions
+    */
+
+    markerGroup.children.forEach(
+        (mesh, index) => {
+
+            const p =
+                framePoints[index];
+
+            if (!p || !p.valid) {
+
+                mesh.visible = false;
+
+                return;
+
+            }
+
+            mesh.visible =
+                showMarkers;
+
+            mesh.position.set(
+                p.x,
+                p.y,
+                p.z
+            );
+
+            /*
+                Highlight selected marker.
+            */
+
+            const scale =
+                index === selectedMarker
+                    ? 2.0
+                    : 1.0;
+
+            mesh.scale.setScalar(
+                scale
+            );
+
+        }
+    );
+
+
+    /*
+        Stick figure
+    */
+
+    skeletonGroup.visible =
+        showStick;
+
+    skeletonGroup.children.forEach(
+        line => {
+
+            const a =
+                framePoints[
+                    line.userData.a
+                ];
+
+            const b =
+                framePoints[
+                    line.userData.b
+                ];
+
+            if (
+                !a ||
+                !b ||
+                !a.valid ||
+                !b.valid
+            ) {
+
+                line.visible = false;
+
+                return;
+
+            }
+
+            line.visible = true;
+
+            const positions =
+                new Float32Array([
+                    a.x, a.y, a.z,
+                    b.x, b.y, b.z
+                ]);
+
+            line.geometry.setAttribute(
+                "position",
+                new THREE.BufferAttribute(
+                    positions,
+                    3
+                )
+            );
+
+            line.geometry.computeBoundingSphere();
+
+        }
+    );
+
+
+    /*
+        Trajectory
+    */
+
+    updateTrail();
+
+
+    /*
+        Timeline
+    */
+
+    document
+    .getElementById(
+        "frameSlider"
+    )
+    .value = frame;
+
+    document
+    .getElementById(
+        "frameLabel"
+    )
+    .textContent =
+        `Frame ${frame}`;
+
+
+    /*
+        Live numerical values
+    */
+
+    const p =
+        framePoints[
+            selectedMarker
+        ];
+
+    if (p) {
+
+        document
+        .getElementById(
+            "xValue"
+        )
+        .textContent =
+            p.x.toFixed(4);
+
+        document
+        .getElementById(
+            "yValue"
+        )
+        .textContent =
+            p.y.toFixed(4);
+
+        document
+        .getElementById(
+            "zValue"
+        )
+        .textContent =
+            p.z.toFixed(4);
+
+    }
+
+    const time =
+        frame /
+        c3d.frameRate;
+
+    document
+    .getElementById(
+        "timeValue"
+    )
+    .textContent =
+        time.toFixed(3) + " s";
+
+    document
+    .getElementById(
+        "currentFrame"
+    )
+    .textContent =
+        frame;
+
+    document
+    .getElementById(
+        "currentMarker"
+    )
+    .textContent =
+        c3d.labels[
+            selectedMarker
+        ] || "-";
+
+
+    /*
+        Velocity
+    */
+
+    const velocity =
+        velocityData[frame];
+
+    document
+    .getElementBy
