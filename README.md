@@ -1,81 +1,103 @@
-# EEG Data Practical Report: Eye Blink Artifacts & Reference Electrode Effects
+# Biomechanics Practical Reports & Biomedical Signal Analysis
 
-## Executive Summary
-This report presents an experimental analysis of Electroencephalography (EEG) data recorded during controlled motor and visual tasks. The primary objective is to investigate the influence of different reference electrode placements—specifically **Ear Lobe**, **Left Thumb**, and **Right Thumb**—on signal quality, noise characteristics, and the magnitude/propagation of **Eye Blink Artifacts**.
+A comprehensive repository containing practical laboratory reports, data processing scripts, and clinical signal analysis workflows across key biomechanics & electrophysiological domains.
 
 ---
 
-## Experimental Protocol & Signal Flow
+## Repository Structure & Overview
 
 ```mermaid
-flowchart TD
-    A[Subject Preparation & Electrode Placement] --> B[Signal Acquisition]
+graph TD
+    Root[Biomechanics Repository]
     
-    subgraph References[Reference Electrode Configurations]
-        B1[Ear Lobe Reference - Linked/Single]
-        B2[Left Thumb Reference - Non-cephalic]
-        B3[Right Thumb Reference - Non-cephalic]
-    end
+    Root --> EMG[1. EMG Practical]
+    Root --> EEG[2. EEG Practical]
+    Root --> Gait[3. Gait Analysis]
+    Root --> Motion[4. Motion Analysis]
+
+    EMG --> EMG_CSV[Raw & Sliding RMS CSV Data]
+    EMG --> EMG_TEX[LaTeX Practical Report main.tex]
     
-    B --> References
-    References --> C[EEG Recording Session]
-    
-    subgraph Tasks[Recorded Events]
-        C1[Baseline Resting State - Eyes Open/Closed]
-        C2[Controlled Eye Blinks]
-        C3[Thumb Movement Controls]
-    end
-    
-    C --> Tasks
-    Tasks --> D[Preprocessing & Bandpass Filtering]
-    D --> E[Artifact & Signal Feature Analysis]
-    E --> F[Comparative Assessment & Report Generation]
+    EEG --> EEG_Ref[Reference Electrode Study]
+    EEG --> EEG_Blink[Eye Blink Artifact Dynamics]
+
+    Gait --> Gait_M[MATLAB Processing Script gait230449N.m]
+    Gait --> Gait_CSV[Marker Trajectory Data markers.csv]
+
+    Motion --> Motion_C3D[3D Motion Capture C3D/TXT Data]
+    Motion --> Motion_Sim[Interactive HTML Simulator]
 ```
 
 ---
 
-## Key Experimental Conditions & Findings
+## Modules Breakdown
 
-### 1. Reference Electrode Effects
-* **Ear Lobe (A1/A2):**
-  * **Characteristics:** Standard cephalic/near-cephalic reference.
-  * **Impact:** Minimal ECG/EMG contamination. High signal-to-noise ratio (SNR) for cortical potential mapping.
-* **Left Thumb & Right Thumb:**
-  * **Characteristics:** Non-cephalic limb references.
-  * **Impact:** Increased vulnerability to movement artifacts, electromyographic (EMG) noise from hand muscle contraction, and cardiac interferences (ECG artifact spikes). Demonstrates the critical necessity of cephalic grounding in motor task monitoring.
+### 1. Electromyography (EMG) Practical
+* **Focus:** Muscle activation dynamics, Maximum Voluntary Contraction (MVC), and sliding RMS envelope calculation.
+* **Key Files:**
+  * Raw trial datasets (`emg_raw_trial_*.csv`)
+  * Processed signal features (`emg_mvc_sliding_rms.csv`)
+  * Full LaTeX practical report (`main.tex`, compiled `main.pdf`)
 
----
-
-### 2. Eye Blink Artifact Dynamics
+### 2. Electroencephalography (EEG) Practical
+* **Focus:** Impact of reference electrode selection (**Ear Lobe** vs. non-cephalic **Left Thumb** & **Right Thumb**) on signal SNR and propagation of **Eye Blink Artifacts**.
 
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Sub as Subject Action
-    participant EEG as Prefrontal EEG (Fp1/Fp2)
-    participant Ref as Reference Electrode
-    participant Out as Analysis Output
+    participant Subject
+    participant Prefrontal_EEG as Prefrontal Channels (Fp1/Fp2)
+    participant Reference as Reference Electrode
+    participant Output as Signal Analysis
 
-    Sub->>EEG: Eye Blink Event (Electrooculogram potential shift)
-    EEG->>Ref: Potential Difference Measurement
-    alt Ear Lobe Reference
-        Ref-->>Out: High-amplitude, localized frontal deflections (~100-200 µV)
+    Subject->>Prefrontal_EEG: Eye Blink Event (EOG Potential Shift)
+    Prefrontal_EEG->>Reference: Potential Difference
+    alt Ear Lobe Reference (Cephalic)
+        Reference-->>Output: Clean Signal with Localized Frontal Blink Deflection (~100-200 µV)
     else Thumb Reference (Non-cephalic)
-        Ref-->>Out: Widespread high-amplitude artifact + muscle/movement noise overlay
+        Reference-->>Output: High Noise Floor + ECG/EMG & Widespread Artifact Overlay
     end
+```
+
+### 3. Gait Analysis
+* **Focus:** Lower limb kinematics and stride phase segmentation using optical motion capture marker tracking.
+* **Key Files:**
+  * Trajectory coordinates (`markers.csv`)
+  * Analysis & visualization script (`gait230449N.m`)
+  * Reference gait cycle presentation (`Gait Analysis - Reference Slides.pptx`)
+
+### 4. Motion Analysis Practical
+* **Focus:** 3D biomechanical motion reconstruction and interactive kinematics preview.
+* **Key Files:**
+  * Motion capture data files (`Group2_2026.c3d`, `Group2_2026_(Coordinates).txt`)
+  * Visualization simulator (`simulator.html`)
+
+---
+
+## Signal Processing & Analysis Pipeline
+
+```mermaid
+flowchart LR
+    A[Raw Biosignal Data] --> B[Filtering & Preprocessing]
+    B --> C{Module Target}
+    C -->|EMG| D[MVC Normalization & Sliding RMS]
+    C -->|EEG| E[ICA Ocular Artifact Removal & SNR Assessment]
+    C -->|Gait/Motion| F[Kinematic Trajectory & Joint Angle Calculation]
+    D --> G[Report & Data Artifact Generation]
+    E --> G
+    F --> G
 ```
 
 ---
 
-## Signal Processing Pipeline
+## Getting Started
 
-1. **Bandpass Filtering:** $0.5 \text{ Hz} - 45 \text{ Hz}$ zero-phase Butterworth filter to eliminate baseline drift and high-frequency noise.
-2. **Notch Filtering:** $50 \text{ Hz} / 60 \text{ Hz}$ line-noise suppression.
-3. **Artifact Detection:** Threshold peak detection and Independent Component Analysis (ICA) decomposition to isolate ocular components.
-
----
-
-## Conclusion & Recommendations
-* **Ear Lobe** reference remains the most stable setup for reducing non-cephalic noise during EEG acquisition.
-* **Thumb References** introduce non-negligible biological noise (EMG/ECG) and motion artifacts, though useful for illustrating reference sensitivity in practical experiments.
-* Eye blink artifacts exhibit maximum deflection at frontal channels ($\text{Fp1}$, $\text{Fp2}$) and require dedicated ICA component rejection prior to spectral analysis.
+1. **LaTeX Compiling (EMG Report):**
+   ```bash
+   cd "EMG practicle"
+   pdflatex main.tex
+   ```
+2. **Gait Kinematics (MATLAB):**
+   Open `gait230449N.m` in MATLAB to plot trajectory data from `markers.csv`.
+3. **Motion Simulator:**
+   Open `Motion analysis practicle/simulator.html` in standard web browsers.
