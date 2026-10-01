@@ -1,10 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.8.2)  1 OCT 2026 19:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.8.2)  1 OCT 2026 19:28
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
-**"d:/Ideas/Biomechanics/Gait Analysis/report.tex"
-(d:/Ideas/Biomechanics/Gait Analysis/report.tex
+**report.tex
+(./report.tex
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
 (d:/TexLive/2026/texmf-dist/tex/latex/base/article.cls
@@ -23,14 +22,18 @@ File: size12.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
 \bibindent=\dimen150
-) (d:/TexLive/2026/texmf-dist/tex/latex/geometry/geometry.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2026/03/07 v6.0 Page Geometry
- (d:/TexLive/2026/texmf-dist/tex/latex/graphics/keyval.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2026-05-17 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
-) (d:/TexLive/2026/texmf-dist/tex/generic/iftex/ifvtex.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
- (d:/TexLive/2026/texmf-dist/tex/generic/iftex/iftex.sty
+
+(d:/TexLive/2026/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2024/12/12 v1.0g TeX engine tests
 ))
 \Gm@cnth=\count284
@@ -45,13 +48,16 @@ Package: iftex 2024/12/12 v1.0g TeX engine tests
 \Gm@layouthoffset=\dimen157
 \Gm@layoutvoffset=\dimen158
 \Gm@dimlist=\toks18
-) (d:/TexLive/2026/texmf-dist/tex/latex/base/fontenc.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
-) (d:/TexLive/2026/texmf-dist/tex/latex/base/inputenc.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2024/02/08 v1.3d Input encoding file
 \inpenc@prehook=\toks19
 \inpenc@posthook=\toks20
-) (d:/TexLive/2026/texmf-dist/tex/latex/lm/lmodern.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/lm/lmodern.sty
 Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -85,36 +91,45 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
-) (d:/TexLive/2026/texmf-dist/tex/latex/graphics/graphicx.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2026-05-17 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
- (d:/TexLive/2026/texmf-dist/tex/latex/graphics/graphics.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2026-05-17 v1.4h Standard LaTeX Graphics (DPC,SPQR)
- (d:/TexLive/2026/texmf-dist/tex/latex/graphics/trig.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
-) (d:/TexLive/2026/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 106.
- (d:/TexLive/2026/texmf-dist/tex/latex/graphics-def/pdftex.def
+
+(d:/TexLive/2026/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen159
 \Gin@req@width=\dimen160
-) (d:/TexLive/2026/texmf-dist/tex/latex/amsmath/amsmath.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2026/05/19 v2.18d AMS math features
 \@mathmargin=\skip51
 
 For additional information on amsmath, use the `?' option.
 (d:/TexLive/2026/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2024/11/17 v2.01 AMS text
- (d:/TexLive/2026/texmf-dist/tex/latex/amsmath/amsgen.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks21
 \ex@=\dimen161
-)) (d:/TexLive/2026/texmf-dist/tex/latex/amsmath/amsbsy.sty
+))
+(d:/TexLive/2026/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen162
-) (d:/TexLive/2026/texmf-dist/tex/latex/amsmath/amsopn.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
 \inf@bad=\count287
@@ -164,16 +179,19 @@ LaTeX Info: Redefining \Relbar on input line 970.
 \mathdisplay@stack=\toks25
 LaTeX Info: Redefining \[ on input line 2965.
 LaTeX Info: Redefining \] on input line 2966.
-) (d:/TexLive/2026/texmf-dist/tex/latex/amsfonts/amssymb.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
- (d:/TexLive/2026/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)) (d:/TexLive/2026/texmf-dist/tex/latex/booktabs/booktabs.sty
+))
+(d:/TexLive/2026/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen170
 \lightrulewidth=\dimen171
@@ -192,9 +210,11 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count301
 \@lastruleclass=\count302
 \@thisrulewidth=\dimen182
-) (d:/TexLive/2026/texmf-dist/tex/latex/tools/tabularx.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
- (d:/TexLive/2026/texmf-dist/tex/latex/tools/array.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/tools/array.sty
 Package: array 2026/02/24 v2.7b Tabular extension package (FMi)
 \col@sep=\dimen183
 \ar@mcellbox=\box55
@@ -211,18 +231,22 @@ Package: array 2026/02/24 v2.7b Tabular extension package (FMi)
 \TX@delta=\dimen189
 \TX@cols=\count303
 \TX@ftn=\toks27
-) (d:/TexLive/2026/texmf-dist/tex/latex/float/float.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count304
 \float@exts=\toks28
 \float@box=\box57
 \@float@everytoks=\toks29
 \@floatcapt=\box58
-) (d:/TexLive/2026/texmf-dist/tex/latex/caption/subcaption.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
- (d:/TexLive/2026/texmf-dist/tex/latex/caption/caption.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
- (d:/TexLive/2026/texmf-dist/tex/latex/caption/caption3.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
 \caption@tempdima=\dimen190
 \captionmargin=\dimen191
@@ -242,54 +266,73 @@ Package caption Info: New subtype `subfigure' on input line 238.
 \c@subfigure=\count307
 Package caption Info: New subtype `subtable' on input line 238.
 \c@subtable=\count308
-) (d:/TexLive/2026/texmf-dist/tex/latex/hyperref/hyperref.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2026-06-17 v7.01r Hypertext links for LaTeX
- (d:/TexLive/2026/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
-) (d:/TexLive/2026/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-) (d:/TexLive/2026/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
- (d:/TexLive/2026/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+
+(d:/TexLive/2026/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-) (d:/TexLive/2026/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
-Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
- (d:/TexLive/2026/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(d:/TexLive/2026/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-)) (d:/TexLive/2026/texmf-dist/tex/latex/hycolor/hycolor.sty
+))
+(d:/TexLive/2026/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-) (d:/TexLive/2026/texmf-dist/tex/latex/hyperref/nameref.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2026-01-29 v2.58 Cross-referencing by name of section
- (d:/TexLive/2026/texmf-dist/tex/latex/refcount/refcount.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-) (d:/TexLive/2026/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
- (d:/TexLive/2026/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
 \c@section@level=\count309
-) (d:/TexLive/2026/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count310
-) (d:/TexLive/2026/texmf-dist/tex/generic/stringenc/stringenc.sty
-Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
+)
+(d:/TexLive/2026/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
 )
 \@linkdim=\dimen198
 \Hy@linkcounter=\count311
 \Hy@pagecounter=\count312
- (d:/TexLive/2026/texmf-dist/tex/latex/hyperref/pd1enc.def
+
+(d:/TexLive/2026/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2026-06-17 v7.01r Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-) (d:/TexLive/2026/texmf-dist/tex/generic/intcalc/intcalc.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
 \Hy@SavedSpaceFactor=\count313
- (d:/TexLive/2026/texmf-dist/tex/latex/hyperref/puenc.def
+
+(d:/TexLive/2026/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2026-06-17 v7.01r Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
@@ -302,16 +345,20 @@ Package hyperref Info: Backreferencing OFF on input line 4219.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4466.
 \c@Hy@tempcnt=\count314
- (d:/TexLive/2026/texmf-dist/tex/latex/url/url.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4805.
 \XeTeXLinkMargin=\dimen199
- (d:/TexLive/2026/texmf-dist/tex/generic/bitset/bitset.sty
+
+(d:/TexLive/2026/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
- (d:/TexLive/2026/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
-Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+
+(d:/TexLive/2026/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
 ))
 \Fld@menulength=\count315
 \Field@Width=\dimen256
@@ -328,20 +375,26 @@ Package hyperref Info: PDF/A mode OFF on input line 6121.
 \c@Hfootnote=\count318
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
- (d:/TexLive/2026/texmf-dist/tex/latex/hyperref/hpdftex.def
+
+(d:/TexLive/2026/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2026-06-17 v7.01r Hyperref driver for pdfTeX
 \Fld@listcount=\count319
 \c@bookmark@seq@number=\count320
- (d:/TexLive/2026/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+
+(d:/TexLive/2026/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
- (d:/TexLive/2026/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+
+(d:/TexLive/2026/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+84.
 )
 \Hy@SectionHShift=\skip56
-) (d:/TexLive/2026/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
+
 \f@nch@headwidth=\skip57
 \f@nch@offset@elh=\skip58
 \f@nch@offset@erh=\skip59
@@ -357,7 +410,8 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 \f@nch@widthC=\skip69
 \f@nch@widthR=\skip70
 \@temptokenb=\toks30
-) (d:/TexLive/2026/texmf-dist/tex/latex/titlesec/titlesec.sty
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/titlesec/titlesec.sty
 Package: titlesec 2025/01/04 v2.17 Sectioning titles
 \ttl@box=\box59
 \beforetitleunit=\skip71
@@ -369,34 +423,85 @@ Package: titlesec 2025/01/04 v2.17 Sectioning titles
 \titlewidthlast=\dimen261
 \titlewidthfirst=\dimen262
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 17.
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 28.
- (d:/TexLive/2026/texmf-dist/tex/latex/lm/t1lmr.fd
+(d:/TexLive/2026/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count321
+\lst@gtempboxa=\box60
+\lst@token=\toks32
+\lst@length=\count322
+\lst@currlwidth=\dimen263
+\lst@column=\count323
+\lst@pos=\count324
+\lst@lostspace=\dimen264
+\lst@width=\dimen265
+\lst@newlines=\count325
+\lst@lineno=\count326
+\lst@maxwidth=\dimen266
+
+(d:/TexLive/2026/texmf-dist/tex/latex/listings/lstpatch.sty
+File: lstpatch.sty 2025/11/14 1.11b (Carsten Heinz)
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
+\c@lstnumber=\count327
+\lst@skipnumbers=\count328
+\lst@framebox=\box61
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2025/11/14 1.11b listings configuration
+))
+Package: listings 2025/11/14 1.11b (Carsten Heinz)
+
+(d:/TexLive/2026/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+
+(d:/TexLive/2026/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+
+(d:/TexLive/2026/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 46.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 57
+.
+
+(d:/TexLive/2026/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) (d:/TexLive/2026/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+)
+(d:/TexLive/2026/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2026-02-18 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count321
-) (./report.aux)
+\l__color_backend_stack_int=\count329
+)
+(./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -434,116 +539,197 @@ LaTeX Font Info:    ... okay on input line 28.
 
 (d:/TexLive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count322
-\scratchdimen=\dimen263
-\scratchbox=\box60
-\nofMPsegments=\count323
-\nofMParguments=\count324
-\everyMPshowfont=\toks32
-\MPscratchCnt=\count325
-\MPscratchDim=\dimen264
-\MPnumerator=\count326
-\makeMPintoPDFobject=\count327
-\everyMPtoPDFconversion=\toks33
+\scratchcounter=\count330
+\scratchdimen=\dimen267
+\scratchbox=\box62
+\nofMPsegments=\count331
+\nofMParguments=\count332
+\everyMPshowfont=\toks33
+\MPscratchCnt=\count333
+\MPscratchDim=\dimen268
+\MPnumerator=\count334
+\makeMPintoPDFobject=\count335
+\everyMPtoPDFconversion=\toks34
 ) (d:/TexLive/2026/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
- (d:/TexLive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(d:/TexLive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
 ))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
- (d:/TexLive/2026/texmf-dist/tex/latex/graphics/color.sty
-Package: color 2026-05-17 v1.3f Standard LaTeX Color (DPC)
- (d:/TexLive/2026/texmf-dist/tex/latex/graphics-cfg/color.cfg
-File: color.cfg 2016/01/02 v1.6 sample color configuration
-)
-Package color Info: Driver file: pdftex.def on input line 149.
- (d:/TexLive/2026/texmf-dist/tex/latex/graphics/mathcolor.ltx))
-Package hyperref Info: Link coloring ON on input line 28.
- (./report.out) (./report.out)
+Package hyperref Info: Link coloring ON on input line 57.
+
+(./report.out) (./report.out)
 \@outlinefile=\write3
 \openout3 = `report.out'.
 
-<campus_logo.png, id=40, 301.125pt x 301.125pt>
+\c@lstlisting=\count336
+<campus_logo.png, id=44, 301.125pt x 301.125pt>
 File: campus_logo.png Graphic file (type png)
 <use campus_logo.png>
-Package pdftex.def Info: campus_logo.png  used on input line 33.
+Package pdftex.def Info: campus_logo.png  used on input line 62.
 (pdftex.def)             Requested size: 119.50148pt x 119.50133pt.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 42.
- (d:/TexLive/2026/texmf-dist/tex/latex/lm/ot1lmr.fd
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 7
+1.
+
+(d:/TexLive/2026/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 42.
- (d:/TexLive/2026/texmf-dist/tex/latex/lm/omllmm.fd
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 7
+1.
+
+(d:/TexLive/2026/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 42.
- (d:/TexLive/2026/texmf-dist/tex/latex/lm/omslmsy.fd
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+71.
+
+(d:/TexLive/2026/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 42.
- (d:/TexLive/2026/texmf-dist/tex/latex/lm/omxlmex.fd
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+71.
+
+(d:/TexLive/2026/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 42.
+(Font)              <12> on input line 71.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 42.
+(Font)              <8> on input line 71.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 42.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 42.
- (d:/TexLive/2026/texmf-dist/tex/latex/amsfonts/umsa.fd
+(Font)              <6> on input line 71.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 71.
+
+
+(d:/TexLive/2026/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 42.
- (d:/TexLive/2026/texmf-dist/tex/latex/amsfonts/umsb.fd
+LaTeX Font Info:    Trying to load font information for U+msb on input line 71.
+
+
+(d:/TexLive/2026/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-{d:/TexLive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{d:/TexLive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{d:/TexLive/2026/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc} <./campus_logo.png (PNG copy)>] (./report.toc)
+{d:/TexLive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{d:/TexLive/2026/
+texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{d:/TexLive/2026/texmf-dist/fonts/enc/d
+vips/lm/lm-rm.enc} <./campus_logo.png (PNG copy)>] (./report.toc)
 \tf@toc=\write4
 \openout4 = `report.toc'.
 
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.53 \newpage
+l.82 \newpage
               [1]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 59.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 8
+8.
  (d:/TexLive/2026/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Overfull \hbox (2.9549pt too wide) in paragraph at lines 65--66
-[]\T1/lmr/m/n/12 Calculating tem-po-ral pa-ram-e-ters ($\OML/lmm/m/it/12 T[]$\T1/lmr/m/n/12 , $\OML/lmm/m/it/12 T[]$\T1/lmr/m/n/12 , $\OML/lmm/m/it/12 T[]$\T1/lmr/m/n/12 ) and spa-tial pa-ram-e-ters (stride
+Overfull \hbox (2.9549pt too wide) in paragraph at lines 94--95
+[]\T1/lmr/m/n/12 Calculating tem-po-ral pa-ram-e-ters ($\OML/lmm/m/it/12 T[]$\T
+1/lmr/m/n/12 , $\OML/lmm/m/it/12 T[]$\T1/lmr/m/n/12 , $\OML/lmm/m/it/12 T[]$\T1
+/lmr/m/n/12 ) and spa-tial pa-ram-e-ters (stride
  []
 
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 75.
+(d:/TexLive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 103.
+ [2{d:/TexLive/2026/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
+58.
+
 (d:/TexLive/2026/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [2{d:/TexLive/2026/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{d:/TexLive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] [3] [4{d:/TexLive/2026/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}] (./report.aux)
+) [3{d:/TexLive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
+<fig1.png, id=138, 421.575pt x 316.0608pt>
+File: fig1.png Graphic file (type png)
+<use fig1.png>
+Package pdftex.def Info: fig1.png  used on input line 189.
+(pdftex.def)             Requested size: 373.3035pt x 279.87535pt.
+<fig2.png, id=139, 421.575pt x 316.0608pt>
+File: fig2.png Graphic file (type png)
+<use fig2.png>
+Package pdftex.def Info: fig2.png  used on input line 196.
+(pdftex.def)             Requested size: 373.3035pt x 279.87535pt.
+ [4 <./fig1.png (PNG copy)>]
+<fig3.png, id=146, 421.575pt x 316.0608pt>
+File: fig3.png Graphic file (type png)
+<use fig3.png>
+Package pdftex.def Info: fig3.png  used on input line 203.
+(pdftex.def)             Requested size: 373.3035pt x 279.87535pt.
+<fig4.png, id=147, 421.575pt x 316.0608pt>
+File: fig4.png Graphic file (type png)
+<use fig4.png>
+Package pdftex.def Info: fig4.png  used on input line 212.
+(pdftex.def)             Requested size: 218.51521pt x 163.82689pt.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10.95> on input line 213.
+<fig5.png, id=148, 421.575pt x 316.0608pt>
+File: fig5.png Graphic file (type png)
+<use fig5.png>
+Package pdftex.def Info: fig5.png  used on input line 219.
+(pdftex.def)             Requested size: 218.51521pt x 163.82689pt.
+ [5 <./fig2.png (PNG copy)> <./fig3.png (PNG copy)>]
+<fig6.png, id=154, 421.575pt x 316.0608pt>
+File: fig6.png Graphic file (type png)
+<use fig6.png>
+Package pdftex.def Info: fig6.png  used on input line 228.
+(pdftex.def)             Requested size: 373.3035pt x 279.87535pt.
+<fig7.png, id=155, 421.575pt x 316.0608pt>
+File: fig7.png Graphic file (type png)
+<use fig7.png>
+Package pdftex.def Info: fig7.png  used on input line 235.
+(pdftex.def)             Requested size: 373.3035pt x 279.87535pt.
+ [6 <./fig4.png (PNG copy)> <./fig5.png (PNG copy)> <./fig6.png (PNG copy)>]
+<fig8.png, id=165, 421.575pt x 316.0608pt>
+File: fig8.png Graphic file (type png)
+<use fig8.png>
+Package pdftex.def Info: fig8.png  used on input line 242.
+(pdftex.def)             Requested size: 373.3035pt x 279.87535pt.
+ [7 <./fig7.png (PNG copy)> <./fig8.png (PNG copy)>] [8{d:/TexLive/2026/texmf-d
+ist/fonts/enc/dvips/lm/lm-mathsy.enc}]
+(./report.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
  ***********
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: EEC1505A71BB3E2ECD85AB41B4CD9284;1513.
+(rerunfilecheck)             Checksum: C1A686791B7F178EADE60C2F03D4FB44;1811.
  ) 
 Here is how much of TeX's memory you used:
- 13034 strings out of 467167
- 204341 string characters out of 5413685
- 628151 words of memory out of 5000000
- 42086 multiletter control sequences out of 15000+600000
- 680737 words of font info for 73 fonts, out of 8000000 for 9000
+ 15822 strings out of 467167
+ 240600 string characters out of 5413685
+ 1184958 words of memory out of 5000000
+ 44795 multiletter control sequences out of 15000+600000
+ 691049 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 74i,12n,79p,657b,573s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<d:/TexLive/2026/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><d:/TexLive/2026/texmf-dist/fonts/type1/public/lm/lmmi12.pfb><d:/TexLive/2026/texmf-dist/fonts/type1/public/lm/lmr12.pfb><d:/TexLive/2026/texmf-dist/fonts/type1/public/lm/lmr17.pfb><d:/TexLive/2026/texmf-dist/fonts/type1/public/lm/lmr8.pfb><d:/TexLive/2026/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><d:/TexLive/2026/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on report.pdf (5 pages, 264625 bytes).
+ 74i,12n,79p,619b,2596s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<d:/TexLive/2026/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><d:/TexLive/2026
+/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><d:/TexLive/2026/texmf-dist/fonts/
+type1/public/lm/lmmi12.pfb><d:/TexLive/2026/texmf-dist/fonts/type1/public/lm/lm
+r10.pfb><d:/TexLive/2026/texmf-dist/fonts/type1/public/lm/lmr12.pfb><d:/TexLive
+/2026/texmf-dist/fonts/type1/public/lm/lmr17.pfb><d:/TexLive/2026/texmf-dist/fo
+nts/type1/public/lm/lmr6.pfb><d:/TexLive/2026/texmf-dist/fonts/type1/public/lm/
+lmr8.pfb><d:/TexLive/2026/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><d:/TexLi
+ve/2026/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><d:/TexLive/2026/texmf-dist
+/fonts/type1/public/lm/lmtt12.pfb>
+Output written on report.pdf (9 pages, 775278 bytes).
 PDF statistics:
- 139 PDF objects out of 1000 (max. 8388607)
- 112 compressed objects within 2 object streams
- 24 named destinations out of 1000 (max. 500000)
- 78 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 259 PDF objects out of 1000 (max. 8388607)
+ 211 compressed objects within 3 object streams
+ 83 named destinations out of 1000 (max. 500000)
+ 126 words of extra memory for PDF output out of 10000 (max. 10000000)
 

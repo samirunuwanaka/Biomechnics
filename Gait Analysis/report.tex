@@ -13,6 +13,35 @@
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{matlabstyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=matlabstyle}
+
 \graphicspath{{./}{figures/}{WhatsApp Unknown 2026-09-12 at 18.51.55/}}
 \hypersetup{colorlinks=true,linkcolor=black,urlcolor=blue}
 \pagestyle{fancy}
@@ -68,9 +97,63 @@ Processing included:
     \item Computing 2D knee joint angle trajectories using the Law of Cosines on the hip-knee-ankle triangle.
 \end{enumerate}
 
+\subsection{MATLAB Implementation Code for Data Processing}
+The data extraction and preparation code implementation in MATLAB is given below:
+
+\begin{lstlisting}[language=Matlab, caption={Data initialization and setup in MATLAB (\csvfile{gait230449N.m})}]
+% Load the data into array A (marker data)
+A = csvread('markers.csv');
+
+% Number of rows (frames) and columns in A
+[rA,cA] = size(A);
+
+% Data point (frame) numbers
+datapt = A(:,1);
+
+% Right side markers. Each is rA x 3 = [x y z] in mm.
+iliaca = A(:, 5: 7);    % anterior superior iliac spine (ASIS)
+iliacp = A(:,11:13);    % posterior superior iliac spine (PSIS)
+hip    = A(:,17:19);    % greater trochanter (TRO)
+knee   = A(:,23:25);    % lateral femoral condyle (LFC)
+ankle  = A(:,29:31);    % lateral malleolus (LMA)
+toe    = A(:,35:37);    % metatarsal 2nd head (TOE)
+\end{lstlisting}
+
+\begin{lstlisting}[language=Matlab, caption={MATLAB code for kinematic calculations, event detection, velocity and knee angle estimation}]
+%% Task 4 -- Gait cycle temporal calculations
+HS1 = 204;  FF = 230;  HO = 258;  TO = 276;  HS2 = 314;
+
+T_cycle  = (HS2-HS1)/100;    % gait cycle time (s)
+T_stance = (TO-HS1)/100;     % stance time (s)
+T_swing  = (HS2-TO)/100;     % swing time (s)
+P_stance = (T_stance / T_cycle) * 100;
+P_swing  = (T_swing / T_cycle) * 100;
+
+%% Task 5 -- Stride length, cadence, average velocity
+idx_HS1 = HS1 - datapt(1) + 1;
+idx_HS2 = HS2 - datapt(1) + 1;
+stride_length = (ankle(idx_HS2,1) - ankle(idx_HS1,1))/1000; % m
+cadence       = (2 * 60) / T_cycle;                          % steps/min
+v_avg         = stride_length / T_cycle;                      % m/s
+
+%% Task 6 -- Instantaneous velocity
+inst_vel_iliacp = ((iliacp(2:rA,1)-iliacp(1:rA-1,1))/0.01)/1000;
+inst_vel_iliaca = ((iliaca(2:rA,1)-iliaca(1:rA-1,1))/0.01)/1000;
+
+%% Task 7 -- Thigh segment length comparison
+thigh_len_3D = sqrt((hip(:,1)-knee(:,1)).^2 + (hip(:,2)-knee(:,2)).^2 + (hip(:,3)-knee(:,3)).^2);
+thigh_len_2D = sqrt((hip(:,1)-knee(:,1)).^2 + (hip(:,3)-knee(:,3)).^2);
+
+%% Task 8 -- 2D Knee Joint Angle
+thigh_len     = thigh_len_2D;
+leg_len       = sqrt((knee(:,1)-ankle(:,1)).^2 + (knee(:,3)-ankle(:,3)).^2);
+hip_ankle_len = sqrt((hip(:,1)-ankle(:,1)).^2 + (hip(:,3)-ankle(:,3)).^2);
+knee_angle    = 180 - acosd((thigh_len.^2 + leg_len.^2 - hip_ankle_len.^2) ./ (2 .* thigh_len .* leg_len));
+\end{lstlisting}
+
 \section{Results}
 \subsection{Gait Cycle Events and Temporal Parameters}
-From the vertical displacement trajectories of ankle and toe markers (Figure 3), key gait events were identified at the following data point frames:
+From the vertical displacement trajectories of ankle and toe markers (Figure \ref{fig:fig3}), key gait events were identified at the following data point frames:
 \begin{itemize}
     \item \textbf{Initial Heel Strike ($\text{HS}_1$):} Frame 204 ($t = 2.04\,\mathrm{s}$)
     \item \textbf{Foot Flat ($\text{FF}$):} Frame 230 ($t = 2.30\,\mathrm{s}$)
@@ -99,16 +182,67 @@ From the vertical displacement trajectories of ankle and toe markers (Figure 3),
   \end{tabular}
 \end{table}
 
-\subsection{Summary of Matlab Generated Figures}
-\begin{itemize}
-    \item \textbf{Figure 1 (Task 2):} Shows the $x$-$z$ sagittal plane trajectories of all lower limb markers during progression.
-    \item \textbf{Figure 2 (Task 3):} Displays full 3D spatial trajectories ($x$-$y$-$z$) indicating out-of-plane motion.
-    \item \textbf{Figure 3 (Task 4):} Plots vertical ankle and toe heights against frame index, marking heel-strike and toe-off events.
-    \item \textbf{Figure 4 \& 5 (Task 5):} Plot ankle and pelvic marker forward positions ($x$) over frame number to determine step length.
-    \item \textbf{Figure 6 (Task 6):} Shows instantaneous forward velocity computed from ILIACP and ILIACA markers, exhibiting characteristic oscillations due to center-of-mass energy exchange.
-    \item \textbf{Figure 7 (Task 7):} Compares 2D vs 3D thigh segment length. 3D length is consistently slightly larger due to out-of-plane ($y$) marker displacements.
-    \item \textbf{Figure 8 (Task 8):} Illustrates knee joint angle dynamics showing flexions during stance and swing phases.
-\end{itemize}
+\subsection{MATLAB Output Figures and Analysis}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth]{fig1.png}
+    \caption{Task 2: $x$-$z$ sagittal plane trajectories of pelvic, hip, knee, ankle, and toe markers during progression.}
+    \label{fig:fig1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth]{fig2.png}
+    \caption{Task 3: 3D ($x$-$y$-$z$) spatial trajectories showing out-of-plane movements of lower limb markers.}
+    \label{fig:fig2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth]{fig3.png}
+    \caption{Task 4: Vertical ($z$) height trajectories of ankle and toe markers with annotated key gait cycle events ($\text{HS}_1$, $\text{FF}$, $\text{HO}$, $\text{TO}$, $\text{HS}_2$).}
+    \label{fig:fig3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{fig4.png}
+        \caption{Ankle $x$-position vs frame}
+        \label{fig:fig4}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{fig5.png}
+        \caption{Pelvis (ILIACA) $x$-position vs frame}
+        \label{fig:fig5}
+    \end{subfigure}
+    \caption{Task 5: Forward displacements ($x$-coordinates) of ankle and pelvic markers used to determine stride length.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth]{fig6.png}
+    \caption{Task 6: Instantaneous progression velocity of pelvic markers (ILIACP and ILIACA) derived frame-by-frame.}
+    \label{fig:fig6}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth]{fig7.png}
+    \caption{Task 7: Comparison of thigh segment length calculated in 2D ($x$-$z$) vs 3D ($x$-$y$-$z$) space.}
+    \label{fig:fig7}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\textwidth]{fig8.png}
+    \caption{Task 8: 2D Knee joint angle trajectory over the gait cycle showing stance and swing flexion peaks.}
+    \label{fig:fig8}
+\end{figure}
 
 \section{Discussion of Results}
 \subsection{Identification of Heel Strike and Toe Off}
