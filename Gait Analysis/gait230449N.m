@@ -128,15 +128,15 @@ HS2 = 314;      % next heel strike of the same foot
 
 % label them on the figure, e.g.  text(HS1,90,'HEEL STRIKE')
 text(HS1,90,'HEEL STRIKE','Rotation',90)
-text(FF,90,'FOOT FLAT','Rotation',90)
+text(FF,40,'FOOT FLAT','Rotation',90)
 text(HO,90,'HEEL OFF','Rotation',90)
-text(TO,90,'TOE OFF','Rotation',90)
+text(TO,40,'TOE OFF','Rotation',90)
 text(HS2,90,'HEEL STRIKE','Rotation',90)
 
 % TODO: times in seconds (one data point = 0.01 s)
-T_cycle  = HS2-HS1  % gait cycle time
-T_stance = HO-HS1  % stance time
-T_swing  = HS2-HO  % swing time
+T_cycle  = (HS2-HS1)/100  % gait cycle time
+T_stance = (TO-HS1)/100  % stance time
+T_swing  = (HS2-TO)/100  % swing time
 
 % TODO: stance and swing as a percentage of the gait cycle
 P_stance = (T_stance / T_cycle) * 100
