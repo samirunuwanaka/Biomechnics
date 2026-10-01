@@ -155,17 +155,17 @@ xlabel('data point number')
 ylabel('iliaca x (mm)')
 
 % TODO: mm -> m, and remember one data point = 0.01 s
-stride_length = 0;            % m
-cadence       = 0;            % steps/min
-v_avg         = 0;            % m/s
+stride_length = (ankle(HS2-142,1) - ankle(HS1-142,1))/1000            % m
+% cadence       = ()            % steps/min
+% v_avg         = ()/1000            % m/s
 
 
 %% Task 6 -- instantaneous velocity of progression
 figure(6)
 
 % TODO: velocity = change in position / change in time
-% inst_velocity = ((iliacp(2:rA,1)-iliacp(1:rA-1,1))/0.01)/1000;
-% plot(datapt(1:rA-1),inst_velocity)
+inst_velocity = ((iliacp(2:rA,1)-iliacp(1:rA-1,1))/0.01)/1000;
+plot(datapt(1:rA-1),inst_velocity)
 
 xlabel('data point number')
 ylabel('instantaneous velocity (m/s)')
