@@ -166,6 +166,9 @@ figure(6)
 % TODO: velocity = change in position / change in time
 inst_velocity = ((iliacp(2:rA,1)-iliacp(1:rA-1,1))/0.01)/1000;
 plot(datapt(1:rA-1),inst_velocity)
+hold on
+inst_velocity = ((illumpca(2:rA,1)-illumpca(1:rA-1,1))/0.01)/1000;
+plot(datapt(1:rA-1),inst_velocity)
 
 xlabel('data point number')
 ylabel('instantaneous velocity (m/s)')
@@ -176,15 +179,17 @@ figure(7)
 
 % TODO: distance between the hip marker and the knee marker.
 % Keep the WHOLE sum inside sqrt( ):
-% thigh_len_2D = sqrt( (hip(:,1)-knee(:,1)).^2 + ... );   % x and z
-% thigh_len_3D = sqrt( ... );                             % x, y and z
-% plot(datapt,thigh_len_2D)
-% hold on
-% plot(datapt,thigh_len_3D)
+thigh_len_3D = sqrt( (hip(:,1)-knee(:,1)).^2  + (hip(:,2)-knee(:,2)).^2 + (hip(:,3)-knee(:,3)).^2);   %  x, y and z                        % x, y and z
+thigh_len_2D = sqrt( (hip(:,1)-knee(:,1)).^2 + (hip(:,3)-knee(:,3)).^2 );   % x and z
+plot(datapt,thigh_len_2D)
+hold on
+plot(datapt,thigh_len_3D)
+legend("2D","3D")
 
 xlabel('data point number')
 ylabel('thigh segment length (mm)')
 
+% The 3D Length is diviated because the markers can be slightly change due to the fixation to body and the not of placing at the rotating joint.
 % A thigh is about 440 mm. If your plot says 40000, check the brackets.
 
 
@@ -195,11 +200,11 @@ figure(8)
 %   a = thigh length, b = knee to ankle, c = hip to ankle
 %   cos(theta) = (a^2 + b^2 - c^2) / (2ab),  knee angle = 180 - theta
 % TODO
-% thigh_len     = thigh_len_2D;
-% leg_len       = sqrt( ... );
-% hip_ankle_len = sqrt( ... );
-% knee_angle    = 180 - acosd( ... );
-% plot(datapt,knee_angle)
+thigh_len     = thigh_len_2D;
+leg_len       = sqrt( (knee(:,1)-ankle(:,1)).^2 + (knee(:,3)-ankle(:,3)).^2 );
+hip_ankle_len = sqrt( (hip(:,1)-ankle(:,1)).^2 + (hip(:,3)-ankle(:,3)).^2 );
+knee_angle    = 180 - acosd( (thigh_len.^2 + leg_len.^2 - hip_ankle_len.^2) / (2 .* thigh_len .* leg_len ) );
+plot(datapt,knee_angle)
 
 xlabel('data point number')
 ylabel('knee angle (deg)')
