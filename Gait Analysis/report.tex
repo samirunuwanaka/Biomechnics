@@ -18,7 +18,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{Biomechanics}
-\rhead{EMG Practical}
+\rhead{Motion Analysis}
 \cfoot{\thepage}
 \setlength{\headheight}{15pt}
 \titleformat{\section}{\Large\bfseries}{\thesection}{0.7em}{}
@@ -51,3 +51,77 @@
 
 \tableofcontents
 \newpage
+
+\section{Introduction}
+Human gait is the pattern of movement of the limbs during locomotion. Gait analysis involves the systematic study of human motion through observational and quantitative measurement parameters. Understanding kinematics (motion trajectories, velocities, joint angles) and temporal-spatial parameters (gait cycle time, stance/swing ratio, stride length, cadence) is essential in clinical biomechanics, sports performance assessment, and rehabilitation engineering. This practical focuses on analyzing motion capture marker data collected from level walking to quantify gait characteristics.
+
+\section{Methods}
+Kinematic data were acquired using an optical motion capture system tracking passive reflective markers placed on lower limb anatomical landmarks (ASIS - ILIACA, PSIS - ILIACP, Greater Trochanter - HIP, Lateral Femoral Condyle - KNEE, Lateral Malleolus - ANKLE, and 2nd Metatarsal Head - TOE). Marker positions were recorded at a sampling rate of $100\,\mathrm{Hz}$ ($0.01\,\mathrm{s}$ interval per frame). The recorded dataset \csvfile{markers.csv} was processed using MATLAB script \csvfile{gait230449N.m}. 
+
+Processing included:
+\begin{enumerate}
+    \item Reconstructing 2D ($x$-$z$) and 3D ($x$-$y$-$z$) trajectories of pelvic and leg markers.
+    \item Tracking vertical ($z$) positions of the ankle and toe markers to identify key gait cycle events: Initial Heel Strike ($\text{HS}_1$), Foot Flat ($\text{FF}$), Heel Off ($\text{HO}$), Toe Off ($\text{TO}$), and Subsequent Heel Strike ($\text{HS}_2$).
+    \item Calculating temporal parameters ($T_{\text{cycle}}$, $T_{\text{stance}}$, $T_{\text{swing}}$) and spatial parameters (stride length, cadence, average progression velocity).
+    \item Evaluating instantaneous progression velocity from pelvic markers ($x$-coordinate derivative).
+    \item Comparing 2D and 3D thigh segment lengths to analyze planar approximation errors.
+    \item Computing 2D knee joint angle trajectories using the Law of Cosines on the hip-knee-ankle triangle.
+\end{enumerate}
+
+\section{Results}
+\subsection{Gait Cycle Events and Temporal Parameters}
+From the vertical displacement trajectories of ankle and toe markers (Figure 3), key gait events were identified at the following data point frames:
+\begin{itemize}
+    \item \textbf{Initial Heel Strike ($\text{HS}_1$):} Frame 204 ($t = 2.04\,\mathrm{s}$)
+    \item \textbf{Foot Flat ($\text{FF}$):} Frame 230 ($t = 2.30\,\mathrm{s}$)
+    \item \textbf{Heel Off ($\text{HO}$):} Frame 258 ($t = 2.58\,\mathrm{s}$)
+    \item \textbf{Toe Off ($\text{TO}$):} Frame 276 ($t = 2.76\,\mathrm{s}$)
+    \item \textbf{Subsequent Heel Strike ($\text{HS}_2$):} Frame 314 ($t = 3.14\,\mathrm{s}$)
+\end{itemize}
+
+\begin{table}[H]
+  \centering
+  \caption{Calculated Gait Parameters for Subject 230449N}
+  \vspace{2mm}
+  \begin{tabular}{lcc}
+    \toprule
+    \textbf{Parameter} & \textbf{Value} & \textbf{Unit} \\
+    \midrule
+    Gait Cycle Duration ($T_{\text{cycle}}$) & 1.10 & $\mathrm{s}$ \\
+    Stance Duration ($T_{\text{stance}}$) & 0.72 & $\mathrm{s}$ \\
+    Swing Duration ($T_{\text{swing}}$) & 0.38 & $\mathrm{s}$ \\
+    Stance Percentage ($P_{\text{stance}}$) & 65.45 & $\%$ \\
+    Swing Percentage ($P_{\text{swing}}$) & 34.55 & $\%$ \\
+    Stride Length & 1.353 & $\mathrm{m}$ \\
+    Cadence & 109.09 & $\text{steps/min}$ \\
+    Average Velocity ($v_{\text{avg}}$) & 1.230 & $\mathrm{m/s}$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Summary of Matlab Generated Figures}
+\begin{itemize}
+    \item \textbf{Figure 1 (Task 2):} Shows the $x$-$z$ sagittal plane trajectories of all lower limb markers during progression.
+    \item \textbf{Figure 2 (Task 3):} Displays full 3D spatial trajectories ($x$-$y$-$z$) indicating out-of-plane motion.
+    \item \textbf{Figure 3 (Task 4):} Plots vertical ankle and toe heights against frame index, marking heel-strike and toe-off events.
+    \item \textbf{Figure 4 \& 5 (Task 5):} Plot ankle and pelvic marker forward positions ($x$) over frame number to determine step length.
+    \item \textbf{Figure 6 (Task 6):} Shows instantaneous forward velocity computed from ILIACP and ILIACA markers, exhibiting characteristic oscillations due to center-of-mass energy exchange.
+    \item \textbf{Figure 7 (Task 7):} Compares 2D vs 3D thigh segment length. 3D length is consistently slightly larger due to out-of-plane ($y$) marker displacements.
+    \item \textbf{Figure 8 (Task 8):} Illustrates knee joint angle dynamics showing flexions during stance and swing phases.
+\end{itemize}
+
+\section{Discussion of Results}
+\subsection{Identification of Heel Strike and Toe Off}
+Heel strike occurs when the heel makes initial contact with the ground, corresponding to local minima in ankle height combined with zero or low vertical velocity. Foot flat follows as the forefoot contacts the ground. Heel off is observed when the ankle height begins to rise sharply while toe height remains low. Toe off occurs when the toe marker loses contact with the ground and accelerates upwards into the swing phase.
+
+\subsection{Measurement Sources of Error}
+\begin{enumerate}
+    \item \textbf{Soft Tissue Artifact (STA):} Skin and muscle movement over underlying bones causes relative motion between optical markers and skeleton landmarks.
+    \item \textbf{Anatomical Landmark Placement Error:} Misalignment of markers relative to exact joint rotation centers (e.g., greater trochanter or condyle center).
+    \item \textbf{2D Planar Projection Error:} Estimating parameters purely in 2D ($x$-$z$ plane) ignores pelvic rotation and hip abduction/adduction ($y$-axis motion), leading to small deviations in segment length and knee angle calculations.
+\end{enumerate}
+
+\section{Conclusion}
+In this laboratory session, quantitative gait analysis was conducted using optical marker trajectories processed in MATLAB. Key gait cycle phases, temporal-spatial parameters, instantaneous velocities, and knee angle kinematics were successfully derived. The results demonstrate classic level-walking gait mechanics ($\sim 65\%$ stance and $\sim 35\%$ swing duration) and highlight the importance of 3D kinematic modeling to account for out-of-plane joint motion.
+
+\end{document}

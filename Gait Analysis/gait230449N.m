@@ -40,12 +40,12 @@ text(iliaca(rA,1),iliaca(rA,3),'ILIACA')
 % iliacp
 plot(iliacp(:,1),iliacp(:,3))
 hold on
-text(iliacp(rA,1),iliacp(rA,3),'ILIACAP')
+text(iliacp(rA,1),iliacp(rA,3),'ILIACP')
 
 % hip
 plot(hip(:,1),hip(:,3))
 hold on
-text(hip(rA,1),hip(rA,3),'ILIACAP')
+text(hip(rA,1),hip(rA,3),'HIP')
 
 % knee
 plot(knee(:,1),knee(:,3))
@@ -65,7 +65,8 @@ axis('equal')
 xlabel('x (mm)')
 ylabel('z (mm)')
 
-title('X-Z trajectories of each marker')
+title('Task 2: X-Z Trajectories of Lower Limb Markers')
+grid on
 
 
 %% Task 3 -- xyz trajectories
@@ -78,12 +79,12 @@ text(iliaca(rA,1),iliaca(rA,2),iliaca(rA,3),'ILIACA')
 % iliacp
 scatter3(iliacp(:,1),iliacp(:,2),iliacp(:,3))
 hold on
-text(iliacp(rA,1),iliacp(rA,2),iliacp(rA,3),'ILIACAP')
+text(iliacp(rA,1),iliacp(rA,2),iliacp(rA,3),'ILIACP')
 
 % hip
 scatter3(hip(:,1),hip(:,2),hip(:,3))
 hold on
-text(hip(rA,1),hip(rA,2),hip(rA,3),'ILIACAP')
+text(hip(rA,1),hip(rA,2),hip(rA,3),'HIP')
 
 % knee
 scatter3(knee(:,1),knee(:,2),knee(:,3))
@@ -104,20 +105,23 @@ xlabel('x (mm)')
 ylabel('y (mm)')
 zlabel('z (mm)')
 
-title('X-Y -Z trajectories of each marker')
+title('Task 3: 3D (X-Y-Z) Trajectories of Lower Limb Markers')
+grid on
 
 
 %% Task 4 -- ankle and toe heights, gait events
 figure(3)
 
-% TODO: plot the z (height) of the ankle and of the toe against datapt
+% plot the z (height) of the ankle and of the toe against datapt
 plot(datapt,ankle(:,3))
 hold on
 plot(datapt,toe(:,3))
 
-xlabel('data point number')
-ylabel('z (mm)')
+xlabel('Data Point Number')
+ylabel('z Height (mm)')
 legend("ANKLE","TOE")
+title('Task 4: Vertical Trajectories of Ankle and Toe Markers with Gait Events')
+grid on
 
 % read the events off Figure 3 and type the data point numbers here
 HS1 = 204;      % heel strike
@@ -127,18 +131,18 @@ TO  = 276;      % toe off
 HS2 = 314;      % next heel strike of the same foot
 
 % label them on the figure, e.g.  text(HS1,90,'HEEL STRIKE')
-text(HS1,90,'HEEL STRIKE','Rotation',90)
-text(FF,40,'FOOT FLAT','Rotation',90)
-text(HO,90,'HEEL OFF','Rotation',90)
-text(TO,40,'TOE OFF','Rotation',90)
-text(HS2,90,'HEEL STRIKE','Rotation',90)
+text(HS1,90,'HEEL STRIKE (HS1)','Rotation',90)
+text(FF,40,'FOOT FLAT (FF)','Rotation',90)
+text(HO,90,'HEEL OFF (HO)','Rotation',90)
+text(TO,40,'TOE OFF (TO)','Rotation',90)
+text(HS2,90,'HEEL STRIKE (HS2)','Rotation',90)
 
-% TODO: times in seconds (one data point = 0.01 s)
+% times in seconds (one data point = 0.01 s)
 T_cycle  = (HS2-HS1)/100  % gait cycle time
 T_stance = (TO-HS1)/100  % stance time
 T_swing  = (HS2-TO)/100  % swing time
 
-% TODO: stance and swing as a percentage of the gait cycle
+% stance and swing as a percentage of the gait cycle
 P_stance = (T_stance / T_cycle) * 100
 P_swing  = (T_swing / T_cycle) * 100
 
@@ -146,51 +150,60 @@ P_swing  = (T_swing / T_cycle) * 100
 %% Task 5 -- stride length, cadence, average velocity
 figure(4)
 plot(datapt,ankle(:,1))       % read the ankle x at the two heel strikes
-xlabel('data point number')
-ylabel('ankle x (mm)')
+xlabel('Data Point Number')
+ylabel('Ankle X Position (mm)')
+title('Task 5a: Ankle X-Position vs Data Point')
+grid on
 
 figure(5)
 plot(datapt,iliaca(:,1))      % read the pelvis x at the two heel strikes
-xlabel('data point number')
-ylabel('iliaca x (mm)')
+xlabel('Data Point Number')
+ylabel('Iliaca X Position (mm)')
+title('Task 5b: Pelvic Marker (ILIACA) X-Position vs Data Point')
+grid on
 
-% TODO: mm -> m, and remember one data point = 0.01 s
-stride_length = (ankle(HS2-142,1) - ankle(HS1-142,1))/1000            % m
-% cadence       = ()            % steps/min
-% v_avg         = ()/1000            % m/s
+% Calculations: mm -> m, and remember one data point = 0.01 s
+idx_HS1 = HS1 - datapt(1) + 1;
+idx_HS2 = HS2 - datapt(1) + 1;
+stride_length = (ankle(idx_HS2,1) - ankle(idx_HS1,1))/1000;            % m
+cadence       = (2 * 60) / T_cycle;                                   % steps/min
+v_avg         = stride_length / T_cycle;                               % m/s
 
 
 %% Task 6 -- instantaneous velocity of progression
 figure(6)
 
-% TODO: velocity = change in position / change in time
-inst_velocity = ((iliacp(2:rA,1)-iliacp(1:rA-1,1))/0.01)/1000;
-plot(datapt(1:rA-1),inst_velocity)
-hold on
-inst_velocity = ((illumpca(2:rA,1)-illumpca(1:rA-1,1))/0.01)/1000;
-plot(datapt(1:rA-1),inst_velocity)
+% velocity = change in position / change in time
+inst_vel_iliacp = ((iliacp(2:rA,1)-iliacp(1:rA-1,1))/0.01)/1000;
+inst_vel_iliaca = ((iliaca(2:rA,1)-iliaca(1:rA-1,1))/0.01)/1000;
 
-xlabel('data point number')
-ylabel('instantaneous velocity (m/s)')
+plot(datapt(1:rA-1), inst_vel_iliacp, 'b', 'LineWidth', 1.2)
+hold on
+plot(datapt(1:rA-1), inst_vel_iliaca, 'r--', 'LineWidth', 1.2)
+
+xlabel('Data Point Number')
+ylabel('Instantaneous Velocity (m/s)')
+legend('ILIACP Velocity', 'ILIACA Velocity')
+title('Task 6: Instantaneous Progression Velocity of Pelvic Markers')
+grid on
 
 
 %% Task 7 -- thigh segment length in 2D and 3D
 figure(7)
 
-% TODO: distance between the hip marker and the knee marker.
-% Keep the WHOLE sum inside sqrt( ):
-thigh_len_3D = sqrt( (hip(:,1)-knee(:,1)).^2  + (hip(:,2)-knee(:,2)).^2 + (hip(:,3)-knee(:,3)).^2);   %  x, y and z                        % x, y and z
-thigh_len_2D = sqrt( (hip(:,1)-knee(:,1)).^2 + (hip(:,3)-knee(:,3)).^2 );   % x and z
-plot(datapt,thigh_len_2D)
+% distance between the hip marker and the knee marker.
+thigh_len_3D = sqrt( (hip(:,1)-knee(:,1)).^2 + (hip(:,2)-knee(:,2)).^2 + (hip(:,3)-knee(:,3)).^2 );
+thigh_len_2D = sqrt( (hip(:,1)-knee(:,1)).^2 + (hip(:,3)-knee(:,3)).^2 );
+
+plot(datapt, thigh_len_2D, 'b', 'LineWidth', 1.2)
 hold on
-plot(datapt,thigh_len_3D)
-legend("2D","3D")
+plot(datapt, thigh_len_3D, 'r--', 'LineWidth', 1.2)
+legend("2D (X-Z plane)", "3D (X-Y-Z space)")
 
-xlabel('data point number')
-ylabel('thigh segment length (mm)')
-
-% The 3D Length is diviated because the markers can be slightly change due to the fixation to body and the not of placing at the rotating joint.
-% A thigh is about 440 mm. If your plot says 40000, check the brackets.
+xlabel('Data Point Number')
+ylabel('Thigh Segment Length (mm)')
+title('Task 7: Comparison of 2D and 3D Thigh Segment Length Over Gait Cycle')
+grid on
 
 
 %% Task 8 -- knee joint angle in 2D
@@ -199,12 +212,14 @@ figure(8)
 % Cosine rule on the triangle hip - knee - ankle, using x and z only:
 %   a = thigh length, b = knee to ankle, c = hip to ankle
 %   cos(theta) = (a^2 + b^2 - c^2) / (2ab),  knee angle = 180 - theta
-% TODO
 thigh_len     = thigh_len_2D;
 leg_len       = sqrt( (knee(:,1)-ankle(:,1)).^2 + (knee(:,3)-ankle(:,3)).^2 );
 hip_ankle_len = sqrt( (hip(:,1)-ankle(:,1)).^2 + (hip(:,3)-ankle(:,3)).^2 );
-knee_angle    = 180 - acosd( (thigh_len.^2 + leg_len.^2 - hip_ankle_len.^2) / (2 .* thigh_len .* leg_len ) );
-plot(datapt,knee_angle)
+knee_angle    = 180 - acosd( (thigh_len.^2 + leg_len.^2 - hip_ankle_len.^2) ./ (2 .* thigh_len .* leg_len ) );
 
-xlabel('data point number')
-ylabel('knee angle (deg)')
+plot(datapt, knee_angle, 'k', 'LineWidth', 1.2)
+
+xlabel('Data Point Number')
+ylabel('Knee Angle (degrees)')
+title('Task 8: 2D Knee Joint Angle Trajectory')
+grid on
