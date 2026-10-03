@@ -4,7 +4,7 @@ A comprehensive repository containing practical laboratory reports, data process
 
 ---
 
-## Repository Structure & Overview
+## Repository Overview & Structure
 
 ```mermaid
 graph TD
@@ -14,90 +14,81 @@ graph TD
     Root --> EEG[2. EEG Practical]
     Root --> Gait[3. Gait Analysis]
     Root --> Motion[4. Motion Analysis]
+    Root --> OpenSim[5. OpenSim Practical]
 
-    EMG --> EMG_CSV[Raw & Sliding RMS CSV Data]
-    EMG --> EMG_TEX[LaTeX Practical Report main.tex]
-    
-    EEG --> EEG_Ref[Reference Electrode Study]
-    EEG --> EEG_Blink[Eye Blink Artifact Dynamics]
-
-    Gait --> Gait_M[MATLAB Processing Script gait230449N.m]
-    Gait --> Gait_CSV[Marker Trajectory Data markers.csv]
-
-    Motion --> Motion_C3D[3D Motion Capture C3D/TXT Data]
-    Motion --> Motion_Sim[Interactive HTML Simulator]
+    EMG --> EMG_TEX[LaTeX Report main.tex]
+    EEG --> EEG_TEX[LaTeX Report report.tex]
+    Gait --> Gait_TEX[LaTeX Report report.tex]
+    Motion --> Motion_TEX[LaTeX Report report.tex]
+    OpenSim --> OpenSim_TEX[LaTeX Report report.tex]
 ```
 
 ---
 
-## Modules Breakdown
+## Practical Modules Breakdown
 
 ### 1. Electromyography (EMG) Practical
-* **Focus:** Muscle activation dynamics, Maximum Voluntary Contraction (MVC), and sliding RMS envelope calculation.
+* **Focus:** Surface EMG acquisition, RMS moving window envelope extraction, MVC normalisation.
 * **Key Files:**
   * Raw trial datasets (`emg_raw_trial_*.csv`)
-  * Processed signal features (`emg_mvc_sliding_rms.csv`)
-  * Full LaTeX practical report (`main.tex`, compiled `main.pdf`)
+  * Feature datasets (`emg_mvc_sliding_rms.csv`)
+  * LaTeX report (`main.tex`, compiled `main.pdf`)
 
 ### 2. Electroencephalography (EEG) Practical
-* **Focus:** Impact of reference electrode selection (**Ear Lobe** vs. non-cephalic **Left Thumb** & **Right Thumb**) on signal SNR and propagation of **Eye Blink Artifacts**.
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Subject
-    participant Prefrontal_EEG as Prefrontal Channels (Fp1/Fp2)
-    participant Reference as Reference Electrode
-    participant Output as Signal Analysis
-
-    Subject->>Prefrontal_EEG: Eye Blink Event (EOG Potential Shift)
-    Prefrontal_EEG->>Reference: Potential Difference
-    alt Ear Lobe Reference (Cephalic)
-        Reference-->>Output: Clean Signal with Localized Frontal Blink Deflection (~100-200 µV)
-    else Thumb Reference (Non-cephalic)
-        Reference-->>Output: High Noise Floor + ECG/EMG & Widespread Artifact Overlay
-    end
-```
+* **Focus:** Reference electrode montages (Ear Lobe vs. Thumb) and eye-blink EOG artifact propagation.
+* **Key Files:**
+  * HDF5 session dataset (`RecordSession_12026.09.28_09.39.53.hdf5`)
+  * Standardized LaTeX report (`report.tex`)
 
 ### 3. Gait Analysis
-* **Focus:** Lower limb kinematics and stride phase segmentation using optical motion capture marker tracking.
+* **Focus:** Lower limb kinematics, 2D/3D trajectory parsing, gait cycle event identification.
 * **Key Files:**
-  * Trajectory coordinates (`markers.csv`)
-  * Analysis & visualization script (`gait230449N.m`)
-  * Reference gait cycle presentation (`Gait Analysis - Reference Slides.pptx`)
+  * Marker trajectories (`markers.csv`)
+  * MATLAB analysis script (`gait230449N.m`)
+  * LaTeX report (`report.tex`)
 
-### 4. Motion Analysis Practical
-* **Focus:** 3D biomechanical motion reconstruction and interactive kinematics preview.
+### 4. 3D Motion Analysis Practical
+* **Focus:** 3D motion capture C3D binary parsing, kinematic derivatives, and web simulation.
 * **Key Files:**
-  * Motion capture data files (`Group2_2026.c3d`, `Group2_2026_(Coordinates).txt`)
-  * Visualization simulator (`simulator.html`)
+  * Binary C3D motion dataset (`Group2_2026.c3d`, `Motion2026.c3d`)
+  * Spatial coordinate ASCII export (`Group2_2026_(Coordinates).txt`)
+  * Interactive HTML simulator (`simulator.html`)
+  * Standardized LaTeX report (`report.tex`)
+
+### 5. OpenSim Practical (Crouch Gait & Muscle Kinematics)
+* **Focus:** Musculoskeletal modeling in OpenSim 4.6, crouch gait knee kinematics, and semitendinosus muscle-tendon length evaluation.
+* **Key Files:**
+  * Kinematic comparative plot (`Crouch_Normal_knee_angles_r.png`)
+  * Kinematic dataset (`gait.xlsx`)
+  * Standardized LaTeX report (`report.tex`)
 
 ---
 
-## Signal Processing & Analysis Pipeline
+## Report Structure & Methodological Command Placeholders
 
-```mermaid
-flowchart LR
-    A[Raw Biosignal Data] --> B[Filtering & Preprocessing]
-    B --> C{Module Target}
-    C -->|EMG| D[MVC Normalization & Sliding RMS]
-    C -->|EEG| E[ICA Ocular Artifact Removal & SNR Assessment]
-    C -->|Gait/Motion| F[Kinematic Trajectory & Joint Angle Calculation]
-    D --> G[Report & Data Artifact Generation]
-    E --> G
-    F --> G
+All practical reports (`report.tex` / `main.tex`) share the standardized University of Moratuwa B.Sc. Engineering Biomechanics template format:
+* **Title Page:** University logo (`campus_logo.png`), course metadata, student index (`230449N`), date.
+* **Sections:** Introduction, Methods (with clear `<INSERT_..._COMMAND_HERE>` placeholders for automated CLI/script commands), Results, Discussion, and Conclusion.
+
+---
+
+## Compiling LaTeX Practical Reports
+
+To compile any report, navigate to its directory and run `pdflatex`:
+
+```bash
+# 1. EMG Practical
+cd "EMG practicle" && pdflatex main.tex
+
+# 2. Gait Analysis
+cd "../Gait Analysis" && pdflatex report.tex
+
+# 3. EEG Practical
+cd "../EEG practical" && pdflatex report.tex
+
+# 4. Motion Analysis Practical
+cd "../Motion analysis practicle" && pdflatex report.tex
+
+# 5. OpenSim Practical
+cd "../OpenSim practicle" && pdflatex report.tex
 ```
-
----
-
-## Getting Started
-
-1. **LaTeX Compiling (EMG Report):**
-   ```bash
-   cd "EMG practicle"
-   pdflatex main.tex
-   ```
-2. **Gait Kinematics (MATLAB):**
-   Open `gait230449N.m` in MATLAB to plot trajectory data from `markers.csv`.
-3. **Motion Simulator:**
-   Open `Motion analysis practicle/simulator.html` in standard web browsers.
