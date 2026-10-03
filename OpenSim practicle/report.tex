@@ -105,8 +105,8 @@ The evaluation follows a two-part procedural methodology: kinematic trajectory c
 
 \subsubsection{Phase 2: Plotting Knee Joint Kinematics \& Muscle Lengths}
 \begin{enumerate}
-    \item \textbf{Knee Angle Plotting:} Using OpenSim Plotter, the right knee angle (\texttt{knee_angle_r}) in degrees is plotted against the gait cycle duration for both \texttt{Normal} and \texttt{Crouch} models.
-    \item \textbf{Hamstrings Length Plotting:} The muscle-tendon length of the semitendinosus muscle (\texttt{semiten_r}) is plotted across the gait cycle for both gait conditions.
+    \item \textbf{Knee Angle Plotting:} Using OpenSim Plotter, the right knee angle (\csvfile{knee_angle_r}) in degrees is plotted against the gait cycle duration for both \texttt{Normal} and \texttt{Crouch} models.
+    \item \textbf{Hamstrings Length Plotting:} The muscle-tendon length of the semitendinosus muscle (\csvfile{semiten_r}) is plotted across the gait cycle for both gait conditions.
 \end{enumerate}
 
 \subsection{Command Placeholders \& Execution Scripts}
@@ -149,10 +149,10 @@ The right knee angle trajectories for normal gait and crouch gait across the nor
 \end{enumerate}
 
 \subsection{Semitendinosus Muscle-Tendon Length}
-The muscle-tendon length of \texttt{semiten_r} was computed across the gait cycle for both conditions.
+The muscle-tendon length of \csvfile{semiten_r} was computed across the gait cycle for both conditions.
 
 \begin{figure}[H]\centering
- \includegraphics[width=0.85\textwidth]{Crouch_Normal_knee_angles_r.png}
+ \includegraphics[width=0.85\textwidth]{gait muscle tendon length.png}
  \caption{Semitendinosus muscle-tendon length comparison across the gait cycle.}
  \label{fig:semiten-length}
 \end{figure}
