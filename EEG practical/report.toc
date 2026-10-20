@@ -1,0 +1,15 @@
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\contentsline {section}{\numberline {2}Methods}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Apparatus}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Electrode Placement}{2}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Recording Protocol}{2}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Data Acquisition Parameters and Signal Processing Pipeline}{2}{subsection.2.4}%
+\contentsline {section}{\numberline {3}Results}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Reference Montage: Interpretation and Data Limitation}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Candidate High-Amplitude Event}{4}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Filter Comparison and Power Spectrum}{5}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Discussion}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Reference Electrode Principles}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Ocular Artifacts and Filtering}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Data Quality and Limitations}{8}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Conclusion}{8}{section.5}%
