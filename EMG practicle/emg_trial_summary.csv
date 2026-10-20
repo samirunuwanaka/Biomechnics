@@ -1,0 +1,5 @@
+load_condition,file,sampling_frequency_Hz,samples,duration_s,raw_mean_uV,raw_peak_to_peak_uV,mean_100ms_RMS_uV,median_100ms_RMS_uV,peak_100ms_RMS_uV,mean_activity_percent_peak_MVC,peak_activity_percent_peak_MVC
+1 kg,emg_raw_trial_16.csv,4000.00000,82000,20.49975,-35.99613,365.61760,32.04875,27.59692,75.66525,7.95938,18.79164
+1 kg,emg_raw_trial_19.csv,4000.00000,82000,20.49975,-36.57698,773.49660,58.48718,54.78767,145.32538,14.52543,36.09189
+2 kg,emg_raw_trial_27.csv,4000.00000,8000,1.99975,-35.15097,270.40810,28.28267,26.85998,50.12740,7.02407,12.44926
+2 kg,emg_raw_trial_38.csv,4000.00000,82000,20.49975,-36.17239,409.82210,36.74271,34.46274,87.43127,9.12514,21.71376
